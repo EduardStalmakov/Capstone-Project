@@ -4,11 +4,11 @@
 
 ## Table of Contents
 **[Datasets](#datasets)**
-** [Project Structure](#structure)**
-** [SQL Database](#sql)**
-** [Machine Learning](#learning)**
-** [Visualizations](#Visuals)**
-** [References](#references)**
+**[Project Structure](#structure)**
+**[SQL Database](#sql)**
+**[Machine Learning](#learning)**
+**[Visualizations](#Visuals)**
+**[References](#references)**
 
 
 <a name="datasets"></a>
@@ -16,19 +16,19 @@
 
 
 <a name="structure"></a>
-##Project Structure
+## Project Structure
 
 <a name="sql"></a>
-##SQL Database
+## SQL Database
 
 <a name="learning"></a>
-##Machine Learning
+## Machine Learning
 
 <a name="Visuals"></a>
-##Visualizations
+## Visualizations
 
 <a name="results"></a>
-##Results
+## Results
 
 <a name="references"></a>
-##References
+## References
