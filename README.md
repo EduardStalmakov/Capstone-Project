@@ -3,12 +3,12 @@
 ## Questions
 
 ## Table of Contents
-**[Datasets](#datasets)**
-**[Project Structure](#structure)**
-**[SQL Database](#sql)**
-**[Machine Learning](#learning)**
-**[Visualizations](#Visuals)**
-**[References](#references)**
+1. **[Datasets](#datasets)**
+2. **[Project Structure](#structure)**
+3. **[SQL Database](#sql)**
+4. **[Machine Learning](#learning)**
+5. **[Visualizations](#Visuals)**
+6. **[References](#references)**
 
 
 <a name="datasets"></a>
