@@ -17,7 +17,8 @@
 
 <a name="structure"></a>
 ## Project Structure
-![My Image]("https://github.com/EduardStalmakov/FirstIntoRepo/blob/main/datafactory.PNG")
+![Owner](https://github.com/EduardStalmakov/FirstIntoRepo/blob/main/datafactory.png)
+
 
 <a name="sql"></a>
 ## SQL Database
