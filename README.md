@@ -22,7 +22,7 @@
 
 <a name="sql"></a>
 ## SQL Database
-
+![SQL-Data](https://github.com/EduardStalmakov/Capstone-Project/blob/main/ERD.png)
 <a name="learning"></a>
 ## Machine Learning
 
