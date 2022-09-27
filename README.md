@@ -17,7 +17,7 @@
 
 <a name="structure"></a>
 ## Project Structure
-![Owner](https://https://github.com/EduardStalmakov/Capstone-Project/ProjectSpecifications/DataPlatformDiagram.pdf)
+![Owner](https://github.com/EduardStalmakov/FirstIntoRepo/blob/main/datafactory.PNG)
 
 
 <a name="sql"></a>
