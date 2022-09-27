@@ -17,7 +17,7 @@
 
 <a name="structure"></a>
 ## Project Structure
-![My Image]("Capstone-Project/blob/main/ProjectSpecifications/DataPlatformDiagram.pdf")
+![My Image]("https://github.com/EduardStalmakov/FirstIntoRepo/blob/main/datafactory.PNG")
 
 <a name="sql"></a>
 ## SQL Database
