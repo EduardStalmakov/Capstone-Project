@@ -17,7 +17,7 @@
 
 <a name="structure"></a>
 ## Project Structure
-![Owner](https://github.com/EduardStalmakov/FirstIntoRepo/blob/main/datafactory.png)
+![Owner](https://github.com/EduardStalmakov/FirstIntoRepo/blob/main/datafactory.PNG)
 
 
 <a name="sql"></a>
