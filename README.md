@@ -17,7 +17,7 @@
 
 <a name="structure"></a>
 ## Project Structure
-![a link](https://github.com/EduardStalmakov/Capstone-Project/blob/main/ProjectSpecifications/DataPlatformDiagram.pdf)
+![Alt text](https://github.com/EduardStalmakov/Capstone-Project/blob/main/ProjectSpecifications/DataPlatformDiagram.pdf)
 
 <a name="sql"></a>
 ## SQL Database
