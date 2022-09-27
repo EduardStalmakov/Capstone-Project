@@ -1,7 +1,7 @@
-insert into dbo.Census (
+INSERT INTO dbo.Census (
     HouseholdMembers, InternetHome, Sex, Age, Race, HouseholdIncome12months, StreamMusic, [State], EmploymentStatus 
 )
-select Number_of_household_members,
+SELECT Number_of_household_members,
 Does_anyone_use_the_Internet_at_home,
 Sex,
 Age,
@@ -10,8 +10,6 @@ Household_total_income_last_12_months,
 Stream_or_Download_Music,
 [State],
 Employment_Status
-from dbo.CensusPop
+FROM dbo.CensusPop
 
-select * from dbo.Census
-
-drop table dbo.CensusPop
+DROP TABLE dbo.CensusPop
