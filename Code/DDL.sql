@@ -1,5 +1,6 @@
 USE [landodatalakes-group4];
 GO
+
 DROP TABLE IF EXISTS dbo.Census;
 GO 
 
@@ -19,6 +20,7 @@ CREATE TABLE Census(
 
 );
 
+GO
 
 DROP TABLE IF EXISTS LastFmUsers;
 
@@ -44,6 +46,39 @@ CREATE TABLE Playlist (
 
     
 
+);
+
+GO
+
+DROP TABLE IF EXISTS Track;
+
+CREATE TABLE Track (
+    TrackID INT,
+    TrackName VARCHAR,
+    Popularity INT,
+    DurationMS INT,
+    ReleaseYear INT,
+    Danceability DECIMAL,
+    Energy DECIMAL,
+    MusicalKey INT,
+    Loudness DECIMAL,
+    Mode INT,
+    Speechiness DECIMAL,
+    Acousticness DECIMAL,
+    Instrumentalness DECIMAL,
+    Liveness DECIMAL,
+    Valence DECIMAL,
+    Tempo DECIMAL,
+    TimeSignature INT
+);
+
+GO
+
+DROP TABLE IF EXISTS PlaylistTrack;
+
+CREATE TABLE PlaylistTrack (
+    PlaylistID INT,
+    TrackID VARCHAR
 );
 
 GO
