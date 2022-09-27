@@ -17,7 +17,7 @@
 
 <a name="structure"></a>
 ## Project Structure
-![Owner](https://https://github.com/EduardStalmakov/Capstone-Project/blob/main/ProjectSpecifications/DataPlatformDiagram.pdf)
+![Owner](https://https://github.com/EduardStalmakov/Capstone-Project/ProjectSpecifications/DataPlatformDiagram.pdf)
 
 
 <a name="sql"></a>
