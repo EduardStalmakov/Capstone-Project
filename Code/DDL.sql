@@ -1,9 +1,9 @@
-use [landodatalakes-group4];
-go
-drop table if exists dbo.Census;
-go 
+USE [landodatalakes-group4];
+GO
+DROP TABLE IF EXISTS dbo.Census;
+GO 
 
-create table Census(
+CREATE TABLE Census(
     
     CensusID int primary key identity (1,1),
     HouseholdMembers int,
