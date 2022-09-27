@@ -53,10 +53,11 @@ GO
 DROP TABLE IF EXISTS Track;
 
 CREATE TABLE Track (
-    TrackID INT,
+    TrackID VARCHAR,
     TrackName VARCHAR,
     Popularity INT,
     DurationMS INT,
+    ArtistID VARCHAR,
     ReleaseYear INT,
     Danceability DECIMAL,
     Energy DECIMAL,
@@ -79,6 +80,18 @@ DROP TABLE IF EXISTS PlaylistTrack;
 CREATE TABLE PlaylistTrack (
     PlaylistID INT,
     TrackID VARCHAR
+);
+
+GO
+
+DROP TABLE IF EXISTS Artist;
+
+CREATE TABLE Artist (
+    ArtistID VARCHAR,
+    Followers INT,
+    Genres VARCHAR,
+    ArtistName VARCHAR,
+    ArtistPopularity INT
 );
 
 GO
