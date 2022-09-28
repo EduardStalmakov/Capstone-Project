@@ -84,6 +84,14 @@ CREATE TABLE PlaylistTrack (
 
 GO
 
+DROP TABLE IF EXISTS RecommendedSongs;
+
+CREATE TABLE RecommendedSong (
+    RecommendedSong INT,
+    PlaylistID INT,
+    TrackID VARCHAR
+);
+
 DROP TABLE IF EXISTS Artist;
 
 CREATE TABLE Artist (
