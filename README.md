@@ -13,6 +13,15 @@
 
 <a name="datasets"></a>
 ## Datasets
+To set up the environment for this project, after downloading the repo, enter the following code in the terminal; "conda env create -f"Code\environment.yml"
+Select landodatalake as your desired environment.
+When running your first cell after the environment is installed and activated, you may be prompted with a message like:
+“Running cells with 'Python 3.9.13 ('landodatalake')' requires ipykernel package.
+Run the following command to install 'ipykernel' into the Python environment. 
+Command: 'conda install -n landodatalake ipykernel --update-deps --force-reinstall'”
+In which case, you should run "conda install -n landodatalake ipykernel --update-deps --force-reinstall" in your terminal
+When it prompts you to proceed, enter ‘y’
+Your environment is now ready to go.
 
 
 <a name="structure"></a>
