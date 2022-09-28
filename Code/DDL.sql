@@ -84,7 +84,7 @@ CREATE TABLE PlaylistTrack (
 
 GO
 
-DROP TABLE IF EXISTS RecommendedSongs;
+DROP TABLE IF EXISTS RecommendedSong;
 
 CREATE TABLE RecommendedSong (
     RecommendedSong INT,
