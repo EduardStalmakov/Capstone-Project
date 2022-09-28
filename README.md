@@ -26,7 +26,7 @@ Your environment is now ready to go.
 
 <a name="structure"></a>
 ## Project Structure
-![Owner](https://github.com/EduardStalmakov/FirstIntoRepo/blob/main/datafactory.PNG)
+![Owner](https://github.com/EduardStalmakov/Capstone-Project/blob/main/ProjectSpecifications/DataPlaformDiagram.png)
 
 
 <a name="sql"></a>
