@@ -3,6 +3,7 @@ from dash import html, dcc
 
 from app import app, server
 from tabs import intro, investors, demographics, interface 
+from model import content
 
 style = {'maxWidth': '960px', 'margin': 'auto'}
 
