@@ -29,6 +29,7 @@ Your environment is now ready to go.
 ![Owner](https://github.com/EduardStalmakov/Capstone-Project/blob/main/ProjectSpecifications/DataPlaformDiagram.png)
 
 ![Owner](https://github.com/EduardStalmakov/Capstone-Project/blob/main/ProjectSpecifications/ETL-Pipeline.PNG)
+![Owner](https://github.com/EduardStalmakov/Capstone-Project/blob/main/ProjectSpecifications/Kafka-Producer-Consumer.PNG)
 
 <a name="sql"></a>
 ## SQL Database
