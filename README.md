@@ -26,9 +26,11 @@ Your environment is now ready to go.
 
 <a name="structure"></a>
 ## Project Structure
+### Data Platform
 ![Owner](https://github.com/EduardStalmakov/Capstone-Project/blob/main/ProjectSpecifications/DataPlaformDiagram.png)
-
+### ETL Pipeline
 ![Owner](https://github.com/EduardStalmakov/Capstone-Project/blob/main/ProjectSpecifications/ETL-Pipeline.PNG)
+### Kafka Producer and Consumer
 ![Owner](https://github.com/EduardStalmakov/Capstone-Project/blob/main/ProjectSpecifications/Kafka-Producer-Consumer.PNG)
 
 <a name="sql"></a>
