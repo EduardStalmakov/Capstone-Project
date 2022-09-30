@@ -28,6 +28,7 @@ Your environment is now ready to go.
 ## Project Structure
 ![Owner](https://github.com/EduardStalmakov/Capstone-Project/blob/main/ProjectSpecifications/DataPlaformDiagram.png)
 
+![Owner](https://github.com/EduardStalmakov/Capstone-Project/blob/main/ProjectSpecifications/ETL-Pipeline.PNG)
 
 <a name="sql"></a>
 ## SQL Database
