@@ -82,7 +82,7 @@ recommender = cosine_distances(pivot_sparse)
 recommender_df = pd.DataFrame(recommender, columns=pivot.index, index=pivot.index)
 #print(recommender_df.head())
 
-def finder(choice):
+def finder(choice, n_clicks):
     results=[]
     songfinder = PlaylistTracks[PlaylistTracks['Song_Artist'].str.contains(choice)]['Song_Artist']
     print(f'Since you like "{songfinder.iloc[0]}" up next is:' )

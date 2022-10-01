@@ -1,7 +1,7 @@
 
 import re
 from dash.dependencies import Input, Output
-from dash import html, dcc 
+from dash import html, dcc, State
 from app import app
 import dash_table
 import plotly.express as px
@@ -84,10 +84,11 @@ layout = html.Div(children=[
     # creating a search box
     html.Div([
         dcc.Input(
-            id = 'input-text',
+            id = 'input-on-submit',
             type = 'text',
             placeholder=" Search a song name"
         ),
+        html.Button('Submit', id='submit-val'),
         dash_table.DataTable(id='search',style_table={'width': '100px'}, style_cell={'textAlign': 'center'})
     
     ]),
@@ -98,11 +99,13 @@ layout = html.Div(children=[
 
 
 # Call back for collaborative machine learning
+
 @app.callback(
     Output('search', 'data'),
-    [Input(component_id='input-text', component_property='value')])
-def search_recommendations(value):
-    r = CollaborativeRecommender.finder(value)
+    [Input(component_id='submit-val', component_property='n_clicks')],
+    [State('input-on-submit', 'value')])
+def search_recommendations(value, n_clicks):
+    r = CollaborativeRecommender.finder(str(value), n_clicks)
     p = r.to_dict('records')
     return p
     
