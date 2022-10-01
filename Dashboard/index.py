@@ -5,7 +5,7 @@ from app import app, server
 from tabs import intro, investors, demographics, interface 
 from model import content
 
-style = {'maxWidth': '1500px', 'margin': 'auto'}
+style = {'maxWidth': '1400px', 'margin': 'auto'}
 
 app.layout = html.Div([
     dcc.Markdown('# Music Streaming Song Recommender'),
