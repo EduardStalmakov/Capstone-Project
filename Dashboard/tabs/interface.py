@@ -77,11 +77,12 @@ layout = html.Div(children=[
 
     # Div to show the recommendations in a table
     html.Div([
-        dash_table.DataTable(id='recommendations',style_table={'width': '100px'}, style_cell={'textAlign': 'center'})]),
+        dash_table.DataTable(id='recommendations',style_table={'width': '100px' }, style_cell={'textAlign': 'center'}),]),
 
     html.H4(['Get recommendations based on what other users saved to their palylists: Type a Song Name'],style={'text-align':'left'}),
 
     # creating a search box
+    html.Br(),
     html.Div([
         dcc.Input(
             id = 'input-on-submit',
