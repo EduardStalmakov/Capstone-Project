@@ -11,7 +11,7 @@ from model import content
 Playlist_Tracks_merged = content.Playlist_Tracks.merge(content.Tracks, how='inner', on='TrackID')
 top_5_songs = Playlist_Tracks_merged['TrackName'].value_counts().sort_values(ascending=False)[0:5]
 top_5_genre = Playlist_Tracks_merged['Genres'].value_counts().sort_values(ascending=False)[0:5]
-
+top_5_artist = Playlist_Tracks_merged['ArtistName'].value_counts().sort_values(ascending=False)[0:5]
 
 
 # Page Layout
@@ -20,10 +20,10 @@ layout = html.Div(children=[
     html.H1(id='user-text', style={'text-align': 'center'}),
     html.Div([
 
-    dcc.Graph(id = 'top-5', figure= px.bar(x=top_5_songs.index, y=top_5_songs.values), style={'padding':'2rem', 'marginTop':'1rem', 'marginLeft':'1rem', 'boxShadow': '#e3e3e3 4px 4px 2px', 'border-radius': '10px', 'backgroundColor': 'grey'}),
-    dcc.Graph(id = 'top-5-artist', figure= px.bar(x=top_5_genre.index, y=top_5_genre.values), style={'padding':'2rem', 'marginTop':'1rem', 'marginLeft':'1rem', 'boxShadow': '#e3e3e3 4px 4px 2px', 'border-radius': '10px', 'backgroundColor': 'grey' })
-    
-    ],style={'display': 'flex', 'width': '49%', 'padding':'5rem', 'align':'center'}),
+    dcc.Graph(id = 'top-5-song', figure= px.bar(x=top_5_songs.index, y=top_5_songs.values), style={'padding':'0.8rem', 'marginTop':'1rem', 'marginLeft':'1rem', 'boxShadow': '#e3e3e3 4px 4px 2px', 'border-radius': '10px', 'backgroundColor': 'grey', 'width':'100%'}),
+    dcc.Graph(id = 'top-5-genre', figure= px.bar(x=top_5_genre.index, y=top_5_genre.values), style={'padding':'0.8rem', 'marginTop':'1rem', 'marginLeft':'1rem', 'boxShadow': '#e3e3e3 4px 4px 2px', 'border-radius': '10px', 'backgroundColor': 'grey','width':'100%' }),
+    dcc.Graph(id = 'top-5-artist', figure= px.bar(x=top_5_artist.index, y=top_5_artist.values), style={'padding':'0.8rem', 'marginTop':'1rem', 'marginLeft':'1rem', 'boxShadow': '#e3e3e3 4px 4px 2px', 'border-radius': '10px', 'backgroundColor': 'grey','width':'100%'}),
+    ],style={'display':'inline-flex','width': '100%'}),
 
     html.Div([
         html.Label(['Select User'],style={'font-weight': 'bold'}),
