@@ -1,17 +1,30 @@
-from ast import Div
-from multiprocessing.sharedctypes import Value
+
 import re
 from dash.dependencies import Input, Output
 from dash import html, dcc 
 from app import app
 import dash_table
+import plotly.express as px
 # Importing my content based recommender
 from model import content
-# Run a dropdown to select the playlist id
+
+# Getting the top 5 songs and top5 genres
+Playlist_Tracks_merged = content.Playlist_Tracks.merge(content.Tracks, how='inner', on='TrackID')
+top_5_songs = Playlist_Tracks_merged['TrackName'].value_counts().sort_values(ascending=False)[0:5]
+top_5_genre = Playlist_Tracks_merged['Genres'].value_counts().sort_values(ascending=False)[0:5]
+
+
+
+# Page Layout
 
 layout = html.Div(children=[
     html.H1(id='user-text', style={'text-align': 'center'}),
+    html.Div([
 
+    dcc.Graph(id = 'top-5', figure= px.bar(x=top_5_songs.index, y=top_5_songs.values)),
+    dcc.Graph(id = 'top-5-artist', figure= px.bar(x=top_5_genre.index, y=top_5_genre.values))
+    
+    ],style={'display': 'flex', 'width': '49%'}),
 
     html.Div([
         html.Label(['Select User'],style={'font-weight': 'bold'}),
@@ -35,10 +48,10 @@ layout = html.Div(children=[
 
     html.Label(['Here are your reccommendations based on the selected playlist'],style={'font-weight': 'bold'}),
     # Create the table with recommended songs
-    html.Div(dash_table.DataTable(id='graph',style_table={'width': '100px'}, style_cell={'textAlign': 'center'})),
-
+    html.Div(
+        dash_table.DataTable(id='graph',style_table={'width': '100px'}, style_cell={'textAlign': 'center'})),
     
-        ]),
+    ]),
 
 ])
 
