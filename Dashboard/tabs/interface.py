@@ -10,7 +10,7 @@ from model import content
 
 
 
-# Let's Select User 2724 
+# Let's Select User 3216 
 User = 3216
 Playlists = content.Playlist
 Playlists = Playlists[Playlists['UserID'] == User].copy()
@@ -23,20 +23,39 @@ layout = html.Div(children=[
 
 
     html.Div([
-        html.Label(['Choose a Playlist'],style={'font-weight': 'bold'}),
+        html.Label(['Select User'],style={'font-weight': 'bold'}),
+        dcc.Dropdown(
+            id = 'user',
+            options = [{'label': 'LOVES-DESIRE', 'value': 3216 }, {'label': 'theuskid', 'value': 3248}, {'label': 'johnTMcNeill', 'value': 2980}],
+            style={"width": "40%"},
+            value= 3216
+             ),
+        html.Label(['Select Playlist'],style={'font-weight': 'bold'}),
         dcc.Dropdown(
             id='dropdown',
-            options=[{'label': playlist[2], 'value': playlist[0]} for playlist in Playlists.values],
-            value='10697',
+
+            value= 9688,
             style={"width": "40%"}),
+
 
     # Create the table with recommended songs
     html.Div(dash_table.DataTable(id='graph',style_table={'width': '100px'}, style_cell={'textAlign': 'center'})),
 
-
+    
         ]),
 
 ])
+
+
+@app.callback(
+    Output('dropdown', 'options'),
+    [Input(component_id='user', component_property='value')]
+)
+def select_user(value):
+    Playlists = content.Playlist
+    Playlists = Playlists[Playlists['UserID'] == value].copy()
+    options = [{'label': playlist[2], 'value': playlist[0]} for playlist in Playlists.values]
+    return options
 
 #callback function to get the selected dropdown value and output the data from the function
 @app.callback(
