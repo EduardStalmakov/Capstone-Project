@@ -79,7 +79,7 @@ layout = html.Div(children=[
     html.Div([
         dash_table.DataTable(id='recommendations',style_table={'width': '100px'}, style_cell={'textAlign': 'center'})]),
 
-    html.H4(['Get recommendations based on a Song Name in real time!'],style={'text-align':'left'}),
+    html.H4(['Get recommendations based on what other users saved to their palylists: Type a Song Name'],style={'text-align':'left'}),
 
     # creating a search box
     html.Div([
