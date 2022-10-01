@@ -7,6 +7,7 @@ import dash_table
 import plotly.express as px
 # Importing my content based recommender
 from model import content
+from model import CollaborativeRecommender
 
 # Getting the top 5 songs and top5 genres
 Playlist_Tracks_merged = content.Playlist_Tracks.merge(content.Tracks, how='inner', on='TrackID')
@@ -78,9 +79,35 @@ layout = html.Div(children=[
     html.Div([
         dash_table.DataTable(id='recommendations',style_table={'width': '100px'}, style_cell={'textAlign': 'center'})]),
 
+    html.H4(['Get recommendations based on a Song Name in real time!'],style={'text-align':'left'}),
+
+    # creating a search box
+    html.Div([
+        dcc.Input(
+            id = 'input-text',
+            type = 'text',
+            placeholder=" Search a song name"
+        ),
+        dash_table.DataTable(id='search',style_table={'width': '100px'}, style_cell={'textAlign': 'center'})
+    
+    ]),
 ])
 
+
 # Callbacks and functions
+
+
+# Call back for collaborative machine learning
+@app.callback(
+    Output('search', 'data'),
+    [Input(component_id='input-text', component_property='value')])
+def search_recommendations(value):
+    r = CollaborativeRecommender.finder(value)
+    p = r.to_dict('records')
+    return p
+    
+
+
 
 @app.callback(
     Output('user-text', 'children'),
