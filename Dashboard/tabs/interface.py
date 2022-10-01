@@ -7,19 +7,10 @@ from app import app
 import dash_table
 # Importing my content based recommender
 from model import content
-
-
-
-# Let's Select User 3216 
-User = 3216
-Playlists = content.Playlist
-Playlists = Playlists[Playlists['UserID'] == User].copy()
-
-
 # Run a dropdown to select the playlist id
 
 layout = html.Div(children=[
-    html.H1(children='Welcome LOVES-DESIRE', style={'text-align': 'center'}),
+    html.H1(id='user-text', style={'text-align': 'center'}),
 
 
     html.Div([
@@ -39,9 +30,10 @@ layout = html.Div(children=[
         html.Label(['Select Playlist'],style={'font-weight': 'bold'}),
         dcc.Dropdown(
             id='dropdown',
+            value = 9519,
             style={"width": "40%"}),
 
-
+    html.Label(['Here are your reccommendations based on the selected playlist'],style={'font-weight': 'bold'}),
     # Create the table with recommended songs
     html.Div(dash_table.DataTable(id='graph',style_table={'width': '100px'}, style_cell={'textAlign': 'center'})),
 
@@ -49,6 +41,17 @@ layout = html.Div(children=[
         ]),
 
 ])
+
+@app.callback(
+    Output('user-text', 'children'),
+    [Input(component_id='user', component_property='value')]
+)
+def change_user_welcome_message(value):
+    user = content.Users
+    user = user[user['UserID'] == int(value)].copy()
+
+    return f"Welcome {user['UserName'].values[0]}"
+
 
 
 @app.callback(

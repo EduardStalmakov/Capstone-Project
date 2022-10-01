@@ -16,6 +16,7 @@ Track_table = 'dbo.Track'
 Artist_table = 'dbo.Artist'
 PlaylistTrack_table = 'dbo.PlaylistTrack'
 Playlist_table = 'dbo.Playlist'
+Users_table = 'dbo.LastFmUsers'
 
 user = 'spotify'
 password  = 'T35TPA55W0RD!'
@@ -36,7 +37,8 @@ Playlist_Tracks = pd.read_sql(f'SELECT * FROM {PlaylistTrack_table}' ,conn)
 # Get all of the playlists
 Playlist = pd.read_sql(f'SELECT * FROM {Playlist_table}' ,conn)
 
-
+# Get all of the users
+Users = pd.read_sql(f'SELECT * FROM {Users_table}' ,conn)
 # Functions to run ml model
 
 #Function to scale down popularity by the number of groups you'd like (popularity ranges from 0-100)
