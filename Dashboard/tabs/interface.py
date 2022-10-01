@@ -1,4 +1,3 @@
-
 import re
 from dash.dependencies import Input, Output
 from dash import html, dcc 
@@ -21,10 +20,10 @@ layout = html.Div(children=[
     html.H1(id='user-text', style={'text-align': 'center'}),
     html.Div([
 
-    dcc.Graph(id = 'top-5', figure= px.bar(x=top_5_songs.index, y=top_5_songs.values)),
-    dcc.Graph(id = 'top-5-artist', figure= px.bar(x=top_5_genre.index, y=top_5_genre.values))
+    dcc.Graph(id = 'top-5', figure= px.bar(x=top_5_songs.index, y=top_5_songs.values), style={'padding':'2rem', 'marginTop':'1rem', 'marginLeft':'1rem', 'boxShadow': '#e3e3e3 4px 4px 2px', 'border-radius': '10px', 'backgroundColor': 'grey'}),
+    dcc.Graph(id = 'top-5-artist', figure= px.bar(x=top_5_genre.index, y=top_5_genre.values), style={'padding':'2rem', 'marginTop':'1rem', 'marginLeft':'1rem', 'boxShadow': '#e3e3e3 4px 4px 2px', 'border-radius': '10px', 'backgroundColor': 'grey' })
     
-    ],style={'display': 'flex', 'width': '49%'}),
+    ],style={'display': 'flex', 'width': '49%', 'padding':'5rem', 'align':'center'}),
 
     html.Div([
         html.Label(['Select User'],style={'font-weight': 'bold'}),
@@ -41,10 +40,12 @@ layout = html.Div(children=[
             value= 3216
              ),
         html.Label(['Select Playlist'],style={'font-weight': 'bold'}),
+        html.Br(),
         dcc.Dropdown(
             id='dropdown',
             value = 9519,
             style={"width": "40%"}),
+        html.Br(),
 
     html.Label(['Here are your reccommendations based on the selected playlist'],style={'font-weight': 'bold'}),
     # Create the table with recommended songs
