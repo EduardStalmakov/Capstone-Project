@@ -1,3 +1,4 @@
+
 import re
 from dash.dependencies import Input, Output
 from dash import html, dcc 
@@ -26,7 +27,7 @@ layout = html.Div(children=[
     ],style={'display':'inline-flex','width': '100%'}),
 
     html.Div([
-        html.Label(['Select User'],style={'font-weight': 'bold'}),
+        html.Label(['Select User'],style={'font-weight': 'bold','padding':'0.8rem'}),
         dcc.Dropdown(
             id = 'user',
             options = [
@@ -36,23 +37,21 @@ layout = html.Div(children=[
                 {'label': 'demo-crassy', 'value': 3053},
                 {'label': 'pogopatterson', 'value': 2352}
                  ],
-            style={"width": "40%"},
+            style={'padding':'0.8rem', 'width':'300px'},
             value= 3216
              ),
-        html.Label(['Select Playlist'],style={'font-weight': 'bold'}),
+        html.Label(['Select Playlist'],style={'font-weight': 'bold', 'padding':'0.8rem'}),
         html.Br(),
         dcc.Dropdown(
             id='dropdown',
             value = 9519,
-            style={"width": "40%"}),
-        html.Br(),
+            style={'padding':'0.8rem', 'width':'300px'}),
+    ],style={'display':'inline-flex'}),
 
     html.Label(['Here are your reccommendations based on the selected playlist'],style={'font-weight': 'bold'}),
     # Create the table with recommended songs
-    html.Div(
-        dash_table.DataTable(id='graph',style_table={'width': '100px'}, style_cell={'textAlign': 'center'})),
-    
-    ]),
+    html.Div([
+        dash_table.DataTable(id='graph',style_table={'width': '100px'}, style_cell={'textAlign': 'center'})]),
 
 ])
 
