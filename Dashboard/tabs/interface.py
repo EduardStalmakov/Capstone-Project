@@ -26,15 +26,19 @@ layout = html.Div(children=[
         html.Label(['Select User'],style={'font-weight': 'bold'}),
         dcc.Dropdown(
             id = 'user',
-            options = [{'label': 'LOVES-DESIRE', 'value': 3216 }, {'label': 'theuskid', 'value': 3248}, {'label': 'johnTMcNeill', 'value': 2980}],
+            options = [
+                {'label': 'LOVES-DESIRE', 'value': 3216 }, 
+                {'label': 'theuskid', 'value': 3248}, 
+                {'label': 'johnTMcNeill', 'value': 2980},
+                {'label': 'demo-crassy', 'value': 3053},
+                {'label': 'pogopatterson', 'value': 2352}
+                 ],
             style={"width": "40%"},
             value= 3216
              ),
         html.Label(['Select Playlist'],style={'font-weight': 'bold'}),
         dcc.Dropdown(
             id='dropdown',
-
-            value= 9688,
             style={"width": "40%"}),
 
 
