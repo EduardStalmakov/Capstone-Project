@@ -3,7 +3,7 @@ from dash import html, dcc
 
 from app import app, server
 from tabs import intro, investors, demographics, interface 
-from model import content
+from model import content, collab
 
 style = {'maxWidth': '1400px', 'margin': 'auto'}
 
