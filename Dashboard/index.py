@@ -11,9 +11,10 @@ app.layout = html.Div([
     dcc.Markdown('# Music Streaming Song Recommender'),
     dcc.Tabs(id='tabs', value='tab-intro', children=[
         dcc.Tab(label='Intro', value='tab-intro'),
-        dcc.Tab(label='Investors', value='tab-investors'),
-        dcc.Tab(label='Demographics', value='tab-demographics'),
         dcc.Tab(label='User Interface', value='tab-interface'),
+        dcc.Tab(label='Demographics', value='tab-demographics'),
+        dcc.Tab(label='Investors', value='tab-investors'),
+        
     ]),
     html.Div(id='tabs-content'),
 ], style=style)
