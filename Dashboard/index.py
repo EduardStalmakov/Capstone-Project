@@ -9,7 +9,7 @@ style = {'maxWidth': '1400px', 'margin': 'auto'}
 
 app.layout = html.Div([
     dcc.Markdown('# Music Streaming Song Recommender'),
-    dcc.Tabs(id='tabs', value='tab-intro', children=[
+    dcc.Tabs(id='tabs', value='tab-interface', children=[
         dcc.Tab(label='User Interface', value='tab-interface'),
         dcc.Tab(label='Intro', value='tab-intro'),
         dcc.Tab(label='Behind the Scenes', value='tab-scenes'),
