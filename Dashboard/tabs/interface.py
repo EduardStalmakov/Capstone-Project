@@ -33,18 +33,18 @@ layout = html.Div(children=[
                 {'label': 'demo-crassy', 'value': 3053},
                 {'label': 'pogopatterson', 'value': 2352}
                  ],
-            style={'padding':'0.8rem', 'width':'250px'},
+            style={'backgroundColor': '#F5F5F5', 'width':'400px','justify-content':'center', 'align-items':'center'},
             value= 3216
              ),
-    html.H1(id='user-text', style={'text-align': 'center'}),
-    ], style={'display':'inline','width': '100%','align-items': 'center', 'justify-content': 'center'}),
+    html.H1(id='user-text', style={'text-align': 'center', 'color':'#6699CC'}),
+    ], style={'width': '100%','align-items': 'center', 'justify-content': 'center'}),
 
     html.Div([
     # Div to hold graphs in a row
 
     html.Div([
     # Recommendations title
-    html.H4(['Get recommendations based on a playlist in real time!'],style={'text-align':'left'}),
+    html.H4(['Get recommendations based on a playlist in real time!'],style={'text-align':'left', 'padding':'0.9rem'}),
 
 
     # Div to hold playlist selection box
@@ -54,13 +54,13 @@ layout = html.Div(children=[
         dcc.Dropdown(
             id='dropdown',
             value = 9519,
-            style={'padding':'0.8rem', 'width':'500px'}),
+            style={'backgroundColor': '#F5F5F5', 'width':'500px'}),
     ],style={'display':'inline-flex'}),
 
 
     # Div to show the recommendations in a table
     html.Div([
-        dash_table.DataTable(id='recommendations',style_table={'width': '100px' }, style_cell={'textAlign': 'center'}),]),
+        dash_table.DataTable(id='recommendations',style_table={'width': '100px', 'padding':'0.8rem'}, style_cell={'textAlign': 'center'}),]),
 
     html.H4(['Get recommendations based on what other users saved to their palylists: Type a Song Name'],style={'text-align':'left'}),
 
@@ -70,7 +70,8 @@ layout = html.Div(children=[
         dcc.Input(
             id = 'input-on-submit',
             type = 'text',
-            placeholder="Top"
+            placeholder="Top",
+            style={'backgroundColor': '#F5F5F5'}
         ),
         html.Button('Submit', id='submit-val'),
         dash_table.DataTable(id='searchtable',style_table={'width': '100px'}, style_cell={'textAlign': 'center'}),
