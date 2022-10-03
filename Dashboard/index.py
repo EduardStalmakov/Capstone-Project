@@ -28,10 +28,10 @@ tab_selected_style = {
 app.layout = html.Div([
     dcc.Markdown('# Music Streaming Song Recommender'),
     dcc.Tabs(id='tabs', value='tab-intro', children=[
+        dcc.Tab(label='User Interface', value='tab-interface', style=tab_style, selected_style=tab_selected_style),
         dcc.Tab(label='Intro', value='tab-intro', style=tab_style, selected_style=tab_selected_style),
         dcc.Tab(label='Investors', value='tab-investors', style=tab_style, selected_style=tab_selected_style),
         dcc.Tab(label='Demographics', value='tab-demographics', style=tab_style, selected_style=tab_selected_style),
-        dcc.Tab(label='User Interface', value='tab-interface', style=tab_style, selected_style=tab_selected_style),
     ],style=tabs_styles),
     html.Div(id='tabs-content'),
 ], style=style)
