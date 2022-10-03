@@ -33,18 +33,21 @@ has songs X, Y, and Z, and playlist B has songs X and Y, the person listening to
 Both the content recommender and collaborative recommender are available on the 'User Interface' tab. 
 
 
-#### Demographics
+#### Target Market
 
 Additionally, we researched the demographics of people who stream music. While we could not get proprietary information
 from Spotify about demographics of their users and musical preferences, the US Census Bureau provided demographic data
 about people and households that stream music. Visualization about this data, including age, race, household income is available on the
-'Demographics' tab. 
+'Target Market' tab. 
 
-#### Investors
+Information on the current market size of music streaming services and trends in that market are also available on the 
+'Target Market' tab.
 
-Information on music streaming, how it has revolutionized the music distribution industry and 
-why recommeders like our's are crucial to increasing revenue for investors in music streaming services, 
-like Spotify are available in the 'Investors' tab.
+
+#### Behind the Scenes
+
+Information about how our recommender models work and our data sets are available in the 'Behind the Scenes'
+tab.
 
 
 """)]
