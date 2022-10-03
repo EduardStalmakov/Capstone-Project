@@ -82,12 +82,12 @@ recommender = cosine_distances(pivot_sparse)
 recommender_df = pd.DataFrame(recommender, columns=pivot.index, index=pivot.index)
 #print(recommender_df.head())
 
-def finder(choice, n_clicks):
+def finder(choice):
     results=[]
     songfinder = PlaylistTracks[PlaylistTracks['Song_Artist'].str.contains(choice)]['Song_Artist']
-    print(f'Since you like "{songfinder.iloc[0]}" up next is:' )
+    #print(f'Since you like "{songfinder.iloc[0]}" up next is:' )
     results.append(recommender_df[songfinder.iloc[0]].sort_values()[1:11])
-    print(f'Up next: {recommender_df[songfinder.iloc[0]].sort_values()[1:11]}')
+    #print(f'Up next: {recommender_df[songfinder.iloc[0]].sort_values()[1:11]}')
 
     #make the results into a dataframe
     x = pd.DataFrame(results)
@@ -96,9 +96,14 @@ def finder(choice, n_clicks):
 
     for i in x.columns:
         dict = {}
-        dict['aritst'] = i
-        dict['value'] = x[i].values
+        dict['Artist'] = i
+        dict['Similarity_Value'] = x[i].values
         list.append(dict)
     g = pd.DataFrame(list)
-    g['value'] = g['value'].apply(lambda x: x[0])
+    g['Similarity_Value'] = g['Similarity_value'].apply(lambda x: x[0])
     return g
+
+def songName(value):
+    songfinder = PlaylistTracks[PlaylistTracks['Song_Artist'].str.contains(value)]['Song_Artist']
+    song = songfinder.iloc[0]
+    return song
