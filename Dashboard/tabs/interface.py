@@ -3,11 +3,12 @@ import re
 from dash.dependencies import Input, Output
 from dash import html, dcc, State
 from app import app
-from dash import dash_table
+import dash_table
 import plotly.express as px
 # Importing my content based recommender
 from model import content
 from model import CollaborativeRecommender
+from model import collab
 
 # Getting the top 5 songs and top5 genres
 Playlist_Tracks_merged = content.Playlist_Tracks.merge(content.Tracks, how='inner', on='TrackID')
@@ -36,37 +37,20 @@ layout = html.Div(children=[
             value= 3216
              ),
     html.H1(id='user-text', style={'text-align': 'center'}),
-    ], style={'display':'inline','width': '100%'}),
+    ], style={'display':'inline','width': '100%','align-items': 'center', 'justify-content': 'center'}),
 
-
-    # Div to hold graphs in a row
     html.Div([
+    # Div to hold graphs in a row
 
-    dcc.Graph(id = 'top-5-song', figure= px.bar(x=top_5_songs.index, y=top_5_songs.values, title='Top Trending Songs', 
-                labels={'x':'Song','y':'Count on Playlists'}), 
-                style={'padding':'0.8rem', 'marginTop':'1rem', 'marginLeft':'1rem', 'boxShadow': '#e3e3e3 4px 4px 2px', 
-                'border-radius': '10px', 'backgroundColor': 'grey', 'width':'100%'}),
-
-
-    dcc.Graph(id = 'top-5-genre', figure= px.bar(x=top_5_genre.index, y=top_5_genre.values, title='Top Trending Genres', 
-                labels={'x':'Genre','y':'Count on Playlists'}), 
-                style={'padding':'0.8rem', 'marginTop':'1rem', 'marginLeft':'1rem', 'boxShadow': '#e3e3e3 4px 4px 2px', 
-                'border-radius': '10px', 'backgroundColor': 'grey','width':'100%' }),
-
-    dcc.Graph(id = 'top-5-artist', figure= px.bar(x=top_5_artist.index, y=top_5_artist.values, title='Top Trending Artists', 
-                labels={'x':'Artist','y':'Count on Playlists'}), 
-                style={'padding':'0.8rem', 'marginTop':'1rem', 'marginLeft':'1rem', 'boxShadow': '#e3e3e3 4px 4px 2px', 
-                'border-radius': '10px', 'backgroundColor': 'grey','width':'100%'}),
-    ],style={'display':'inline-flex','width': '100%'}),
-
-
+    html.Div([
     # Recommendations title
     html.H4(['Get recommendations based on a playlist in real time!'],style={'text-align':'left'}),
 
+
     # Div to hold playlist selection box
     html.Div([
-        html.Label(['Select Playlist'],style={'font-weight': 'bold', 'padding':'0.8rem'}),
-        html.Br(),
+        # html.Label(['Select Playlist'],style={'font-weight': 'bold', 'padding':'0.8rem'}),
+        # html.Br(),
         dcc.Dropdown(
             id='dropdown',
             value = 9519,
@@ -78,7 +62,7 @@ layout = html.Div(children=[
     html.Div([
         dash_table.DataTable(id='recommendations',style_table={'width': '100px' }, style_cell={'textAlign': 'center'}),]),
 
-    html.H4(['Get recommendations based on what other users saved to their playlists: Type a Song Name'],style={'text-align':'left'}),
+    html.H4(['Get recommendations based on what other users saved to their palylists: Type a Song Name'],style={'text-align':'left'}),
 
     # creating a search box
     html.Br(),
@@ -86,60 +70,60 @@ layout = html.Div(children=[
         dcc.Input(
             id = 'input-on-submit',
             type = 'text',
-            placeholder=" Search a song name"
+            placeholder="Top"
         ),
         html.Button('Submit', id='submit-val'),
-        html.Br(),
-        #if you like that try this statement
-        html.Div(id='song-output'),
-        
-        #top ten songs like that
-        dash_table.DataTable(id='search',style_table={'width': '100px'}, style_cell={'textAlign': 'center'}),
+        dash_table.DataTable(id='searchtable',style_table={'width': '100px'}, style_cell={'textAlign': 'center'}),
+        # dcc.Graph(id='search', style={'padding':'0.8rem'})
     ]),
-    #make the radar
+    ]),
     html.Div([
 
-        dcc.Graph(id='radar'),
-    ])
+    dcc.Graph(id = 'top-5-song', figure= px.bar(x=top_5_songs.index, y=top_5_songs.values, title='Top Trending Songs', 
+                labels={'x':'Song','y':'Count on Playlists'}), 
+                style={'padding':'0.8rem', 'marginTop':'1rem', 'marginLeft':'1rem', 'boxShadow': '#e3e3e3 2px 2px 1px', 
+                'border-radius': '10px', 'backgroundColor': 'White', 'width':'500px'}),
 
+
+    dcc.Graph(id = 'top-5-genre', figure= px.bar(x=top_5_genre.index, y=top_5_genre.values, title='Top Trending Genres', 
+                labels={'x':'Genre','y':'Count on Playlists'}), 
+                style={'padding':'0.8rem', 'marginTop':'1rem', 'marginLeft':'1rem', 'boxShadow': '#e3e3e3 2px 2px 1px', 
+                'border-radius': '10px', 'backgroundColor': 'White','width':'500px' }),
+
+    dcc.Graph(id = 'top-5-artist', figure= px.bar(x=top_5_artist.index, y=top_5_artist.values, title='Top Trending Artists', 
+                labels={'x':'Artist','y':'Count on Playlists'}), 
+                style={'padding':'0.8rem', 'marginTop':'1rem', 'marginLeft':'1rem', 'boxShadow': '#e3e3e3 2px 2px 1px', 
+                'border-radius': '10px', 'backgroundColor': 'White','width':'500px'}),
+    ]),
+    ], style={'display':'inline-flex'})
 ])
 
 
 # Callbacks and functions
 
+
 # Call back for collaborative machine learning
-#callback song name
-@app.callback(
-    Output(component_id='song-output', component_property='children'),
-    #[Input(component_id='submit-val', component_property='n_clicks')],
-    Input('input-on-submit', 'value'))
-def get_song(value):
-    song = CollaborativeRecommender.songName(str(value))
-    return f'If you like {song}, you should try:'
 
-
-#callback list of songs:
+# @app.callback(
+#     Output('search', 'figure'),
+#     [Input(component_id='submit-val', component_property='n_clicks')],
+#     [State('input-on-submit', 'value')])
+# def search_recommendations_graph(value, n_clicks):
+#     r = CollaborativeRecommender.finder(str(value), n_clicks)
+#     fig = px.bar(r,x='Artist', y='Similarity_value')
+#     return fig
+    
 @app.callback(
-    Output(component_id='search', component_property='data'),
-    #[Input(component_id='submit-val', component_property='n_clicks')],
-    Input(component_id='input-on-submit', component_property='value'))
-def search_recommendations(value):
-    df = CollaborativeRecommender.finder(str(value))
-    p = df.to_dict('records')
+    Output('searchtable', 'data'),
+    [Input(component_id='submit-val', component_property='n_clicks')],
+    [State('input-on-submit', 'value')])
+def search_recommendations(value, n_clicks):
+    r = CollaborativeRecommender.finder(str(value), n_clicks)
+    p = r.to_dict('records')
     return p
-
-#callback radar figure
-@app.callback(
-    Output(component_id='radar', component_property='figure'),
-    Input(component_id='input-on-submit', component_property='value'))
-def radar_maker(value):
-    df = CollaborativeRecommender.finder(str(value))
-    radar= px.line_polar(df, r='Similarity_Value', theta='Song_Artist', line_close=True, markers=True, title=f'The closer to the center, the more similar the song:', style={'padding':'0.8rem', 'marginTop':'1rem', 'marginLeft':'1rem', 'boxShadow': '#e3e3e3 4px 4px 2px', 'border-radius': '10px', 'backgroundColor': 'grey', 'width':'100%'}),
-    radar.update_traces(fill='toself')
-    return radar
+    
 
 
-#callback for welcome
 @app.callback(
     Output('user-text', 'children'),
     [Input(component_id='user', component_property='value')]
@@ -150,7 +134,8 @@ def change_user_welcome_message(value):
 
     return f"Welcome {user['UserName'].values[0]}"
 
-#callback for 
+
+
 @app.callback(
     Output('dropdown', 'options'),
     [Input(component_id='user', component_property='value')]

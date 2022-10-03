@@ -13,6 +13,4 @@ The main app
 
 - app.py - Initiates the Dash app
 - index.py - The main Dash code with the layout and callback
-- Procfile - The Procfile for Heroku
-- requirements.txt - The requirements.txt file for Heroku
 
