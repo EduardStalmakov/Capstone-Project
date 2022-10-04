@@ -90,7 +90,7 @@ html.Div(children=[
 
     html.Div([
     # Recommendations title
-    html.H4(['Choose a playlist to get song recoomendations in real time!'],style={'text-align':'left', 'padding':'0.9rem','font-size':'20px'}),
+    html.H4(['Choose a playlist to get song recommendations in real time!'],style={'text-align':'left', 'padding':'0.9rem','font-size':'20px'}),
 
 
     # Div to hold playlist selection box
