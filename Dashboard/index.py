@@ -5,7 +5,25 @@ from app import app, server
 from tabs import intro, target, scenes, interface 
 from model import content
 
-style = {'maxWidth': '1400px', 'margin': 'auto'}
+style = {'maxWidth': '1500px', 'margin': 'auto'}
+
+tabs_styles = {
+    'height': '60px'
+}
+tab_style = {
+    'borderBottom': '1px solid #d6d6d6',
+    'padding': '6px',
+    'fontWeight': 'bold'
+}
+
+tab_selected_style = {
+    'borderTop': '1px solid #d6d6d6',
+    'borderBottom': '1px solid #d6d6d6',
+    'backgroundColor': '#6699CC',
+    'color': 'white',
+    'padding': '6px'
+}
+
 
 app.layout = html.Div([
     dcc.Markdown('# Music Streaming Song Recommender'),
