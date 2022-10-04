@@ -126,27 +126,6 @@ html.Div(children=[
         # dcc.Graph(id='graph')
     ]),
 
-    html.Br(),
-    html.Br(),
-    html.H4(['Get a song recommendation from LastFm'],style={'text-align':'left','font-size':'20px', 'padding':'1rem'}),
-    html.H4(['Type an artist followed by a track name'],style={'text-align':'left','font-size':'20px'}),
-    html.Div([
-        dcc.Input(
-            id = 'input-on-submit-lastfm-artist',
-            type = 'text',
-            placeholder="Artist",
-            style={'backgroundColor': '#F5F5F5'}
-        ),
-        dcc.Input(
-            id = 'input-on-submit-lastfm-track',
-            type = 'text',
-            placeholder="Track",
-            style={'backgroundColor': '#F5F5F5'}
-        ),
-        html.Button('Submit', id='submit-lastfm'),
-        html.H4(['Below is the Recommendation:'],style={'text-align':'left','font-size':'20px'}),
-        html.Label(id='lastfm')
-    ])
     ]),
     html.Div([
 
@@ -170,19 +149,11 @@ html.Div(children=[
 ])],style={'display':'inline'})
 
 
-# Callbacks and functions
 
 
-# Call back for collaborative machine learning
-#callback for search box SUCCESS!!
-# @app.callback(
-#     Output(component_id='container-button-basic', component_property='children'),
-#     Input(component_id='submit-val', component_property='n_clicks'),
-#     State(component_id='input-on-submit', component_property='value')
-# )
 
-# def update_output(n_clicks, value):
-#     return 'The input value was "{}" and the button has been clicked {} times'.format(value, n_clicks)
+
+
 
 #callback to get "if you like" statement SUCCESS!!
 @app.callback(
@@ -258,21 +229,3 @@ def get_recommendations(value):
     final_data = recommendations_slice.to_dict('records')
     return final_data
 
-@app.callback(
-    Output('lastfm', 'children'),
-    [Input(component_id='submit-lastfm', component_property='n_clicks')],
-    [State('input-on-submit-lastfm-artist','value'), State('input-on-submit-lastfm-track', 'value')])
-def get_lastfm_recommendation(n_clicks, artist, track ):
-    artist = str(artist)
-    track = str(track)
-    lastfm_reco = requests.get(f"http://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist={artist}&track={track}&api_key=5dcdb3fc11650a31b1a095bb49ccba72&format=json").text
-    lastfm_reco_json = json.loads(lastfm_reco)
-    reco_song = lastfm_reco_json['similartracks']['track'][0]['name']
-    reco_artist = lastfm_reco_json['similartracks']['track'][0]['artist']['name']
-    url = lastfm_reco_json['similartracks']['track'][0]['url']
-    r = f"""Track Name: {reco_song} 
-            Artist: {reco_artist}
-            Url: {url}"""
-    n = n_clicks
-    
-    return r
