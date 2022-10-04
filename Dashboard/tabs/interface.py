@@ -23,7 +23,7 @@ layout = html.Div(children=[
 
     # Div for drop down and main text
     html.Div([
-    html.Label(['Select User'],style={'font-weight': 'bold','padding':'0.8rem'}),
+    html.Label(['Select User'],style={'font-weight': 'bold','padding':'0.8rem', 'font-size':'20px'}),
         dcc.Dropdown(
             id = 'user',
             options = [
@@ -36,7 +36,7 @@ layout = html.Div(children=[
             style={'backgroundColor': '#F5F5F5', 'width':'400px','justify-content':'center', 'align-items':'center'},
             value= 3216
              ),
-    html.H1(id='user-text', style={'text-align': 'center', 'color':'#6699CC'}),
+    html.H1(id='user-text', style={'text-align': 'center', 'color':'#6699CC', 'font-weight':'bold','font-size':'60px'}),
     ], style={'width': '100%','align-items': 'center', 'justify-content': 'center'}),
 
     html.Div([
@@ -44,7 +44,7 @@ layout = html.Div(children=[
 
     html.Div([
     # Recommendations title
-    html.H4(['Get recommendations based on a playlist in real time!'],style={'text-align':'left', 'padding':'0.9rem'}),
+    html.H4(['Get recommendations based on a playlist in real time!'],style={'text-align':'left', 'padding':'0.9rem','font-size':'20px'}),
 
 
     # Div to hold playlist selection box
@@ -62,7 +62,7 @@ layout = html.Div(children=[
     html.Div([
         dash_table.DataTable(id='recommendations',style_table={'width': '100px', 'padding':'0.8rem'}, style_cell={'textAlign': 'center'}),]),
 
-    html.H4(['Get recommendations based on what other users saved to their palylists: Type a Song Name'],style={'text-align':'left'}),
+    html.H4(['Get recommendations based on what other users saved to their palylists: Type a Song Name'],style={'text-align':'left','font-size':'20px'}),
 
     # creating a search box
     html.Br(),
