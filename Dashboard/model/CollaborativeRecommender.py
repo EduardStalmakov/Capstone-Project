@@ -82,13 +82,48 @@ recommender = cosine_distances(pivot_sparse)
 recommender_df = pd.DataFrame(recommender, columns=pivot.index, index=pivot.index)
 #print(recommender_df.head())
 
-def finder(choice, n_clicks):
+def finder(n_clicks):
+# def finder():
+#     n_clicks = input('\nSearch: ')
     results=[]
-    songfinder = PlaylistTracks[PlaylistTracks['Song_Artist'].str.contains(choice)]['Song_Artist']
-    #print(f'Since you like "{songfinder.iloc[0]}" up next is:' )
-    results.append(recommender_df[songfinder.iloc[0]].sort_values()[1:11])
-    #print(f'Up next: {recommender_df[songfinder.iloc[0]].sort_values()[1:11]}')
+    songfinder = PlaylistTracks[PlaylistTracks['Song_Artist'].str.contains(n_clicks)]['Song_Artist'] #creates a series of all track/artist that include the value entered in search bar
+    print('===this is songfinder')
+    print(songfinder)
+    print('===info about songfinder')
+    songfinder.info()
+    #====================good to here
+    df = pd.DataFrame(songfinder) #convert series into a dataframe
+    print('===this is df')
+    print(df)
+    print('===info about df')
+    df.info()
+    #===============this is the new part
+    df.drop( df.index.to_list()[1:] ,axis = 0, inplace=True)
+    print('this is the df with only top line')
+    print(df)
+    print('df info - should be a dataframe')
+    df.info()
+    
+    theSong=df.squeeze() #get the first result from the dataframe (creating a series of just the first matching song)
+    print('===this is theSong')
+    print(theSong)
+    print('===info about theSong')
+    print(theSong)
+    #to get the top 5, not including the search track
+    results.append(recommender_df[theSong].sort_values()[1:6])
+#will return top 5 tracks most similar the search track
+    print(results)
+###RETIRED
+# #def finder(choice, n_clicks):
+# def finder():
+#     value = input('\nSearch: ')
+#     results=[]
+#     songfinder = PlaylistTracks[PlaylistTracks['Song_Artist'].str.contains(choice)]['Song_Artist']
+#     #print(f'Since you like "{songfinder.iloc[0]}" up next is:' )
+#     results.append(recommender_df[songfinder.iloc[0]].sort_values()[1:11])
+#     #print(f'Up next: {recommender_df[songfinder.iloc[0]].sort_values()[1:11]}')
 
+#this is original
     #make the results into a dataframe
     x = pd.DataFrame(results)
 
@@ -101,9 +136,100 @@ def finder(choice, n_clicks):
         list.append(dict)
     g = pd.DataFrame(list)
     g['Similarity_Value'] = g['Similarity_Value'].apply(lambda x: x[0])
+    print('this is g')
+    g.info()
+    print('this is g info')
+    g.info()
     return g
 
 def songName(value):
-    songfinder = PlaylistTracks[PlaylistTracks['Song_Artist'].str.contains(value)]['Song_Artist']
-    song = songfinder.iloc[0]
-    return song
+# def songName():
+    #value = input('\nSearch: ')
+    print('===this is value')
+    print(value)
+    songfinder = PlaylistTracks[PlaylistTracks['Song_Artist'].str.contains(value)]['Song_Artist'] #creates a series of all track/artist that include the value entered in search bar
+    print('===this is songfinder')
+    print(songfinder)
+    print('===info about songfinder')
+    songfinder.info()
+    #====================good to here
+    df = pd.DataFrame(songfinder) #convert series into a dataframe
+    print('===this is df')
+    print(df)
+    print('===info about df')
+    df.info()
+    #===============this is the new part
+    df.drop( df.index.to_list()[1:] ,axis = 0, inplace=True)
+    print('this is the df with only top line')
+    print(df)
+    print('df info - should be a dataframe')
+    df.info()
+    
+    theSong=df.squeeze() #get the first result from the dataframe (creating a series of just the first matching song)
+    print('===this is theSong')
+    print(theSong)
+    # songfinder = PlaylistTracks[PlaylistTracks['Song_Artist'].str.contains(value)]['Song_Artist']
+    # song = songfinder.iloc[0]
+    return theSong
+
+def grapher(n_clicks):
+# def grapher():
+#     n_clicks = input('\nSearch: ')
+    results=[]
+    songfinder = PlaylistTracks[PlaylistTracks['Song_Artist'].str.contains(n_clicks)]['Song_Artist'] #creates a series of all track/artist that include the value entered in search bar
+    print('===this is songfinder')
+    print(songfinder)
+    print('===info about songfinder')
+    songfinder.info()
+    #====================good to here
+    df = pd.DataFrame(songfinder) #convert series into a dataframe
+    print('===this is df')
+    print(df)
+    print('===info about df')
+    df.info()
+    #===============this is the new part
+    df.drop( df.index.to_list()[1:] ,axis = 0, inplace=True)
+    print('this is the df with only top line')
+    print(df)
+    print('df info - should be a dataframe')
+    df.info()
+    
+    theSong=df.squeeze() #get the first result from the dataframe (creating a series of just the first matching song)
+    print('===this is theSong')
+    print(theSong)
+    print('===info about theSong')
+    print(theSong)
+    #to get the top 5, not including the search track
+    results.append(recommender_df[theSong].sort_values()[1:6])
+#will return top 5 tracks most similar the search track
+    print('===this is results')
+    print(results)
+
+    x = pd.DataFrame(results)
+
+    list = []
+
+    for i in x.columns:
+        dict = {}
+        dict['Artist'] = i
+        dict['Similarity_Value'] = (1-(x[i].values))
+        list.append(dict)
+        print('====this is dict')
+        print(dict)
+
+    (print('===this is list'))
+    print(list)
+    g = pd.DataFrame(list)
+    g['Similarity_Value'] = g['Similarity_Value'].apply(lambda x: x[0])
+    print('=====this is g')
+    g.info()
+    print('=====this is g info')
+    g.info()
+    return g
+
+
+#finder()
+#songName()
+#grapher()
+
+    
