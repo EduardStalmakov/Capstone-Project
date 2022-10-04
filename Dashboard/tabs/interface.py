@@ -108,8 +108,16 @@ html.Div(children=[
 
     # Div to show the recommendations in a table
     html.Div([
-        dash_table.DataTable(id='recommendations',style_table={'width': '100px', 'padding':'0.8rem'}, style_cell={'textAlign': 'left'}),]),
-
+        dash_table.DataTable(
+            id='recommendations',
+            style_table={'width': '100px', 'padding':'0.8rem'}, 
+            style_cell={'textAlign': 'left'},  
+            style_as_list_view=True,          
+            style_header={
+                'backgroundColor': '#003B6D',
+                'fontWeight': 'bold'},)]),
+ 
+    html.H4([''],style={'text-align':'left','font-size':'20px'}),
     html.H4(['Get recommendations based on what other users saved to their playlists: Type a Song Name'],style={'text-align':'left','font-size':'20px'}),
 
     #////////////////// collab recommender section
@@ -118,12 +126,22 @@ html.Div(children=[
         html.Button('Submit', id='submit-val', n_clicks=0),
         html.Div(id='container-button-basic',
                 children='Enter a value and press submit'),
+        html.Div(html.P([html.Br(),''])),
         #if you like statement
         html.Div(id='ifYouLike')
     ]),
         html.Div([
-        dash_table.DataTable(id='goodsongs',style_table={'width': '100px'}, style_cell={'textAlign': 'center'})
-        # dcc.Graph(id='graph')
+        dash_table.DataTable(id='goodsongs',
+            style_table={'width': '100px'}, 
+            style_cell={'textAlign': 'center'}, 
+            style_as_list_view=True,
+            style_header={
+                'backgroundColor': '#003B6D',
+                'fontWeight': 'bold'},
+            
+
+)
+        
     ]),
 
     ]),
@@ -162,14 +180,18 @@ html.Div(children=[
     State(component_id='input-on-submit', component_property='value')
 )
 def ifYouLike(value, n_clicks):
-    print('this is n_clicks')
-    print(n_clicks)
-    print('this is value')
-    print(value)
+    # print('this is n_clicks')
+    # print(n_clicks)
+    # print('this is value')
+    # print(value)
     if n_clicks is not None:
-        song = CollaborativeRecommender.songName(str(n_clicks))
+        song = CollaborativeRecommender.songName(str(n_clicks)) #returns a series 
+        # print('this is song')
+        # print(song)
+        # print('this is len song')
+        # print(len(song))
         if len(song)<1:
-            print(f"hmm... can't find any songs with '{value}.' Try again.")
+            return(f"hmm... can't find any songs with '{n_clicks}.' Try again.")
             
         else: 
             return f'If you like {song}, you should try:'
