@@ -1,21 +1,53 @@
 from dash.dependencies import Input, Output
 from dash import html, dcc 
-from app import app
+# from app import app
+import plotly.express as px
+import pymssql
+import pandas as pd
 
-layout = [dcc.Markdown("""
-### Final Results
+database    =   'landodatalakes-group4'
+user        =   'spotify'
+password    =   'T35TPA55W0RD!'
+server      =   'gen10-data-fundamentals-22-07-sql-server.database.windows.net'
 
-The predictions were equal to or greater than the actual winning offer 53.48% of the time.
-Several metrics were calculated in order to evaluate the predictions versus the actuals:
+conn    = pymssql.connect(server, user, password, database)
+cursor  = conn.cursor()
 
-|  Metric      |  Result   |
-|--------------|-----------|
-| Median Error |  0.49%    |
-| Within 1%    | 14.69%    |
-| Within 5 %   | 69.72%    |
-| Within 10%   | 91.49%    |
+# Get a DataFrame that uses SQL to merge the Playlist and PlaylistTrack tables
+Playlist_PT = pd.read_sql(f'SELECT UserName, P.UserID, PlaylistTitle, P.PlaylistID,                 \
+                                TrackID FROM Playlist P JOIN PlaylistTrack PT                       \
+                                ON P.PlaylistID = PT.PlaylistID JOIN LastFmUsers U                  \
+                                ON P.UserID = U.UserID', conn)
 
+num_trk_pl = Playlist_PT.groupby(['UserName', 'PlaylistTitle']).agg({'TrackID':'count'})
+num_trk_pl.sort_values(by='TrackID', ascending=False, inplace=True)
+num_trk_pl.reset_index(inplace=True)
+num_trk_pl['Playlist [User]'] = num_trk_pl['PlaylistTitle'].str[0:12] + "...<br>[" + num_trk_pl['UserName'] + "]"
+num_trk_pl = num_trk_pl[['Playlist [User]', 'TrackID']]
+# print(num_trk_pl)
 
-"""),
-#this was an image provided in the example 
-html.Img(src='https://raw.githubusercontent.com/JimKing100/Multiple_Offers/master/data/prediction_errors.png')] 
+top5_pl     =   num_trk_pl.head()
+top5_pl['Rank'] = "Largest 5"
+bot5_pl     =   num_trk_pl.tail()
+bot5_pl['Rank'] = "Smallest 5"
+top5_bot5   =   pd.concat([top5_pl, bot5_pl])
+# print(top5_bot5)
+
+pl_sizes = px.bar(x = top5_bot5['Playlist [User]'], y = top5_bot5['TrackID'],
+                        facet_col = top5_bot5['Rank'], 
+                        title = 'Playlist Sizes By Number of Tracks'.upper(), 
+                        labels = {'x' : 'Playlist [User]', 'y' : 'Number of Tracks'},
+                        text = top5_bot5['TrackID'], width = 1300, height = 1000)
+pl_sizes.update_xaxes(matches = None)
+pl_sizes.for_each_annotation(lambda a: a.update(text=a.text.split("=")[1]))
+pl_sizes.add_annotation(x = 4.5, y = 11, text = 'AVG (10 Tracks)', font = {'color' : 'black'})
+pl_sizes.add_hline(y = 10, line_dash = 'dash', line_color = 'grey')
+pl_sizes.update_layout(title_font_size = 30, title_font_color = '#BDBDBD', title_x = 0.5,
+                            font_color = '#6699CC', paper_bgcolor = '#2A3439')
+
+layout = html.Div([
+html.P(),
+
+dcc.Graph(id = 'pl-size', figure = pl_sizes)
+
+])
