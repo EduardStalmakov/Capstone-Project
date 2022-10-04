@@ -40,7 +40,7 @@ Your environment is now ready to go.
 ## Machine Learning
 Their were two types of machine learning used in this project, a content and a collaborative based song recommender. 
 
-<u> Content based recommender </u>
+<ins>Content based recommender</ins>
 
 
 <a name="Visuals"></a>
