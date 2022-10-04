@@ -3,9 +3,8 @@
 
 import re
 from dash.dependencies import Input, Output
-from dash import html, dcc, State
+from dash import html, dcc, State, dash_table
 from app import app
-import dash_table
 import plotly.express as px
 # Importing my content based recommender
 from model import content
@@ -111,21 +110,24 @@ html.Div(children=[
     html.Div([
         dash_table.DataTable(id='recommendations',style_table={'width': '100px', 'padding':'0.8rem'}, style_cell={'textAlign': 'left'}),]),
 
-    html.H4(['Get recommendations based on what other users saved to their palylists: Type a Song Name'],style={'text-align':'left','font-size':'20px'}),
+    html.H4(['Get recommendations based on what other users saved to their playlists: Type a Song Name'],style={'text-align':'left','font-size':'20px'}),
 
-    # creating a search box
-    html.Br(),
+    #////////////////// collab recommender section
     html.Div([
-        dcc.Input(
-            id = 'input-on-submit',
-            type = 'text',
-            placeholder="Top",
-            style={'backgroundColor': '#F5F5F5'}
-        ),
-        html.Button('Submit', id='submit-val'),
-        dash_table.DataTable(id='searchtable',style_table={}, style_cell={'textAlign': 'left'}),
-        # dcc.Graph(id='search', style={'padding':'0.8rem'})
+        html.Div(dcc.Input(id='input-on-submit', type='text')),
+        html.Button('Submit', id='submit-val', n_clicks=0),
+        html.Div(id='container-button-basic',
+                children='Enter a value and press submit'),
+        #if you like statement
+        html.Div(id='ifYouLike')
     ]),
+        html.Div([
+        #table of songs
+        dash_table.DataTable(id='print',style_table={'width': '100px'}, style_cell={'textAlign': 'center'}),
+        #graph of songs 
+        dcc.Graph(id='graph')
+    ]),
+
     html.Br(),
     html.Br(),
     html.H4(['Get a song recommendation from LastFm'],style={'text-align':'left','font-size':'20px', 'padding':'1rem'}),
@@ -174,25 +176,55 @@ html.Div(children=[
 
 
 # Call back for collaborative machine learning
-
-# @app.callback(
-#     Output('search', 'figure'),
-#     [Input(component_id='submit-val', component_property='n_clicks')],
-#     [State('input-on-submit', 'value')])
-# def search_recommendations_graph(value, n_clicks):
-#     r = CollaborativeRecommender.finder(str(value), n_clicks)
-#     fig = px.bar(r,x='Artist', y='Similarity_value')
-#     return fig
-    
+#callback for search box SUCCESS!!
 @app.callback(
-    Output('searchtable', 'data'),
-    [Input(component_id='submit-val', component_property='n_clicks')],
-    [State('input-on-submit', 'value')])
+    Output(component_id='container-button-basic', component_property='children'),
+    Input(component_id='submit-val', component_property='n_clicks'),
+    State(component_id='input-on-submit', component_property='value')
+)
+
+def update_output(n_clicks, value):
+    return 'The input value was "{}" and the button has been clicked {} times'.format(value, n_clicks)
+
+#callback to get "if you like" statement SUCCESS!!
+@app.callback(
+    Output(component_id='ifYouLike', component_property='children'),
+    Input(component_id='submit-val', component_property='n_clicks'),
+    State(component_id='input-on-submit', component_property='value')
+)
+def ifYouLike(value, n_clicks):
+    print('this is n_clicks')
+    print(n_clicks)
+    print('this is value')
+    print(value)
+    if n_clicks is not None:
+        song = CollaborativeRecommender.songName(str(n_clicks))
+        return f'If you like {song}, you should try:'
+
+#callback collab table SUCCESS!!
+@app.callback(
+    Output(component_id='print', component_property='data'),
+    Input(component_id='submit-val', component_property='n_clicks'),
+    State(component_id='input-on-submit', component_property='value')
+)
 def search_recommendations(value, n_clicks):
-    r = CollaborativeRecommender.finder(str(value), n_clicks)
-    p = r.to_dict('records')
-    return p
-    
+    if n_clicks is not None:
+        r = CollaborativeRecommender.finder(str(n_clicks))
+        print = r.to_dict('records')
+        return print
+
+#callback bar chart SUCCESS!!
+@app.callback(
+    Output(component_id='graph', component_property='figure'),
+    Input(component_id='submit-val', component_property='n_clicks'),
+    State(component_id='input-on-submit', component_property='value')
+)
+def bar_maker(value, n_clicks):
+    if n_clicks is not None:
+        df = CollaborativeRecommender.grapher(str(n_clicks))
+        graph= px.bar(data_frame=df, x=df.Artist, y=df.Similarity_Value, title='Most Similar Songs', labels={'x':'Song (Artist)','y':'Similarity'})
+        #graph.show()
+        return graph
 
 
 @app.callback(
