@@ -1,5 +1,6 @@
 
 
+
 import re
 from dash.dependencies import Input, Output
 from dash import html, dcc, State
@@ -11,6 +12,8 @@ from model import content
 from model import CollaborativeRecommender
 from model import collab
 import dash_bootstrap_components as dbc
+import requests
+import json
 
 # Getting the top 5 songs and top5 genres
 Playlist_Tracks_merged = content.Playlist_Tracks.merge(content.Tracks, how='inner', on='TrackID')
@@ -120,9 +123,30 @@ html.Div(children=[
             style={'backgroundColor': '#F5F5F5'}
         ),
         html.Button('Submit', id='submit-val'),
-        dash_table.DataTable(id='searchtable',style_table={'width': '800px'}, style_cell={'textAlign': 'left', 'overflow':'hidden','maxWidth':'0'}),
+        dash_table.DataTable(id='searchtable',style_table={}, style_cell={'textAlign': 'left'}),
         # dcc.Graph(id='search', style={'padding':'0.8rem'})
     ]),
+    html.Br(),
+    html.Br(),
+    html.H4(['Get a song recommendation from LastFm'],style={'text-align':'left','font-size':'20px', 'padding':'1rem'}),
+    html.H4(['Type an artist followed by a track name'],style={'text-align':'left','font-size':'20px'}),
+    html.Div([
+        dcc.Input(
+            id = 'input-on-submit-lastfm-artist',
+            type = 'text',
+            placeholder="Artist",
+            style={'backgroundColor': '#F5F5F5'}
+        ),
+        dcc.Input(
+            id = 'input-on-submit-lastfm-track',
+            type = 'text',
+            placeholder="Track",
+            style={'backgroundColor': '#F5F5F5'}
+        ),
+        html.Button('Submit', id='submit-lastfm'),
+        html.H4(['Below is the Recommendation:'],style={'text-align':'left','font-size':'20px'}),
+        html.Label(id='lastfm')
+    ])
     ]),
     html.Div([
 
@@ -209,3 +233,21 @@ def get_recommendations(value):
     # fig = px.bar(t, x='TrackName', y='sim')
     final_data = recommendations_slice.to_dict('records')
     return final_data
+
+
+
+@app.callback(
+    Output('lastfm', 'children'),
+    [Input(component_id='submit-lastfm', component_property='n_clicks')],
+    [State('input-on-submit-lastfm-artist', 'value'), State('input-on-submit-lastfm-track', 'value')])
+def get_lastfm_recommendation(n_clicks, artist, track ):
+    artist = str(artist)
+    track = str(track)
+    lastfm_reco = requests.get(f"http://ws.audioscrobbler.com/2.0/?method=track.getsimilar&artist={artist}&track={track}&api_key=5dcdb3fc11650a31b1a095bb49ccba72&format=json").text
+    lastfm_reco_json = json.loads(lastfm_reco)
+    reco_song = lastfm_reco_json['similartracks']['track'][0]['name']
+    reco_artist = lastfm_reco_json['similartracks']['track'][0]['artist']['name']
+    r = f'Track Name: {reco_song}  Artist: {reco_artist}'
+    n = n_clicks
+    
+    return r
