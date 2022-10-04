@@ -1,4 +1,5 @@
 
+
 import re
 from dash.dependencies import Input, Output
 from dash import html, dcc, State
@@ -89,7 +90,7 @@ html.Div(children=[
 
     html.Div([
     # Recommendations title
-    html.H4(['Get recommendations based on a playlist in real time!'],style={'text-align':'left', 'padding':'0.9rem','font-size':'20px'}),
+    html.H4(['Choose a playlist to get song recoomendations in real time!'],style={'text-align':'left', 'padding':'0.9rem','font-size':'20px'}),
 
 
     # Div to hold playlist selection box
@@ -105,7 +106,7 @@ html.Div(children=[
 
     # Div to show the recommendations in a table
     html.Div([
-        dash_table.DataTable(id='recommendations',style_table={'width': '100px', 'padding':'0.8rem'}, style_cell={'textAlign': 'center'}),]),
+        dash_table.DataTable(id='recommendations',style_table={'width': '100px', 'padding':'0.8rem'}, style_cell={'textAlign': 'left'}),]),
 
     html.H4(['Get recommendations based on what other users saved to their palylists: Type a Song Name'],style={'text-align':'left','font-size':'20px'}),
 
@@ -119,7 +120,7 @@ html.Div(children=[
             style={'backgroundColor': '#F5F5F5'}
         ),
         html.Button('Submit', id='submit-val'),
-        dash_table.DataTable(id='searchtable',style_table={'width': '100px'}, style_cell={'textAlign': 'center'}),
+        dash_table.DataTable(id='searchtable',style_table={'width': '800px'}, style_cell={'textAlign': 'left', 'overflow':'hidden','maxWidth':'0'}),
         # dcc.Graph(id='search', style={'padding':'0.8rem'})
     ]),
     ]),
