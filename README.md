@@ -38,6 +38,10 @@ Your environment is now ready to go.
 ![SQL-Data](https://github.com/EduardStalmakov/Capstone-Project/blob/main/ERD.png)
 <a name="learning"></a>
 ## Machine Learning
+Their were two types of machine learning used in this project, a content and a collaborative based song recommender. 
+
+<u> Content based recommender </u>
+
 
 <a name="Visuals"></a>
 ## Visualizations
