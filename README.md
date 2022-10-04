@@ -57,7 +57,7 @@ The content recommender model uses cosine similarity to recommend songs that are
         Retrieved September 19, 2022, from http://www.dcs.gla.ac.uk/~daniel/spud/
         
 [2] Ay, Y. E. (2021, April). Spotify dataset 1921-2020, 600K+ tracks. Kaggle. Retrieved September 26,
-        2022, from https://www.kaggle.com/datasets/yamaerenay/spotify-dataset- 19212020-600k-tracks 
+        2022, from https://www.kaggle.com/datasets/yamaerenay/spotify-dataset-19212020-600k-tracks 
         
 [3] Bureau, U. S. C. (2019, November). Current Population Survey: Computer and Internet Use Supplement. Retrieved September 23, 2022, from  
         https://api.census.gov/data/2019/cps/internet/nov
