@@ -41,6 +41,7 @@ Your environment is now ready to go.
 Their were two types of machine learning used in this project, a content and a collaborative based song recommender. 
 
 <ins>Content based recommender</ins>
+The content recommender model uses cosine similarity to recommend songs that are most similar to a user’s selected playlist. This machine learning algorithm works by first converting each song into a vector with 823 dimensions/features. The features include the song’s genre, attributes, popularity, and Release Year. When a user selects a playlist, a vector is built based on the sum of the song features to create an eigenvector for the playlist. This eigenvector and all of the song vectors are normalized by dividing by their Euclidean magnitudes. Afterwards, a dot product between the normalized playlist and each song’s unit vector is performed to calculate the cosine similarity. These values range from 0 (no similarity) to 1 (perfectly similar) and are sorted in descending order. The top 10 songs are selected as the recommendations. 
 
 
 <a name="Visuals"></a>
