@@ -17,6 +17,7 @@ Artist_table = 'dbo.Artist'
 PlaylistTrack_table = 'dbo.PlaylistTrack'
 Playlist_table = 'dbo.Playlist'
 Users_table = 'dbo.LastFmUsers'
+Census_table = 'dbo.Census' 
 
 user = 'spotify'
 password  = 'T35TPA55W0RD!'
@@ -25,6 +26,9 @@ server = 'gen10-data-fundamentals-22-07-sql-server.database.windows.net'
 conn = pymssql.connect(server,user,password,database)
 cursor = conn.cursor()
 
+
+
+Census = pd.read_sql(f'SELECT * FROM {Census_table}' ,conn)
 #Select the tracks table and join with the artists table to get genres
 Tracks = pd.read_sql(f'SELECT Track.TrackID, TrackName, Artist.ArtistName,Popularity,DurationMS, ReleaseYear,\
     Danceability,Energy,MusicalKey,Loudness,Mode, Speechiness,Acousticness,\

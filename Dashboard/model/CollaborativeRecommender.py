@@ -4,6 +4,7 @@ import sys #for sparse matrix
 from scipy import sparse
 from sklearn.metrics.pairwise import pairwise_distances, cosine_distances, cosine_similarity
 import pymssql
+import plotly.express as px
 #pairwise is the metric we are going to use in our recommender instead of cosine similarity 
 #will convert cosine of 1 - -1 to pairwise distance of 0 - 1
 # pairwise distance 0 is the best, the most similar. 
@@ -144,7 +145,7 @@ def finder(n_clicks):
 
 def songName(value):
 # def songName():
-    #value = input('\nSearch: ')
+#     value = input('\nSearch: ')
     # print('===this is value')
     # print(value)
     songfinder = PlaylistTracks[PlaylistTracks['Song_Artist'].str.contains(value)]['Song_Artist'] #creates a series of all track/artist that include the value entered in search bar
@@ -167,54 +168,61 @@ def songName(value):
     
     theSong=df.squeeze() #get the first result from the dataframe (creating a series of just the first matching song)
     # print('===this is theSong')
-    # print(theSong)
+    # print('Length of series:',len(theSong))
+
+    # print('Size of the Series:', theSong.size)
+
+    # print('The shape of series:',theSong.shape)
+
+    #print(theSong)
+
     # songfinder = PlaylistTracks[PlaylistTracks['Song_Artist'].str.contains(value)]['Song_Artist']
     # song = songfinder.iloc[0]
     return theSong
 
-# def grapher(n_clicks):
-# # def grapher():
-# #     n_clicks = input('\nSearch: ')
-#     results=[]
-#     songfinder = PlaylistTracks[PlaylistTracks['Song_Artist'].str.contains(n_clicks)]['Song_Artist'] #creates a series of all track/artist that include the value entered in search bar
+def grapher(n_clicks):
+# def grapher():
+#     n_clicks = input('\nSearch: ')
+    results=[]
+    songfinder = PlaylistTracks[PlaylistTracks['Song_Artist'].str.contains(n_clicks)]['Song_Artist'] #creates a series of all track/artist that include the value entered in search bar
     
-#     # songfinder.info()
-#     #====================good to here
-#     df = pd.DataFrame(songfinder) #convert series into a dataframe
+    # songfinder.info()
+    #====================good to here
+    df = pd.DataFrame(songfinder) #convert series into a dataframe
   
-#     #===============this is the new part
-#     df.drop( df.index.to_list()[1:] ,axis = 0, inplace=True)
- 
-#
-    
-#     theSong=df.squeeze() #get the first result from the dataframe (creating a series of just the first matching song)
+    #===============this is the new part
+    df.drop( df.index.to_list()[1:] ,axis = 0, inplace=True)
+
+    theSong=df.squeeze() #get the first result from the dataframe (creating a series of just the first matching song)
   
-#     #to get the top 5, not including the search track
-#     results.append(recommender_df[theSong].sort_values()[1:6])
-# #will return top 5 tracks most similar the search track
-    print('===this is results')
-    print(results)
+    #to get the top 5, not including the search track
+    results.append(recommender_df[theSong].sort_values()[1:6])
+#will return top 5 tracks most similar the search track
+    # print('===this is results')
+    # print(results)
 
-#     x = pd.DataFrame(results)
+    x = pd.DataFrame(results)
 
-#     list = []
+    list = []
 
-#     for i in x.columns:
-#         dict = {}
-#         dict['Artist'] = i
-#         dict['Similarity_Value'] = (1-(x[i].values))
-#         list.append(dict)
+    for i in x.columns:
+        dict = {}
+        dict['Artist'] = i
+        dict['Similarity_Value'] = (1-(x[i].values))
+        list.append(dict)
 
 
     # (print('===this is list'))
     # print(list)
-#     g = pd.DataFrame(list)
-#     g['Similarity_Value'] = g['Similarity_Value'].apply(lambda x: x[0])
+    g = pd.DataFrame(list)
+    g['Similarity_Value'] = g['Similarity_Value'].apply(lambda x: x[0])
     # print('=====this is g')
-#     # g.info()
+    # print(g)
     # print('=====this is g info')
 #     # g.info()
-#     return g
+    # graph= px.bar(data_frame=g, x=g.Artist, y=g.Similarity_Value, title='Most Similar Songs', labels={'x':'Song (Artist)','y':'Similarity'})
+    # graph.show()
+    return g
 
 
 #finder()
