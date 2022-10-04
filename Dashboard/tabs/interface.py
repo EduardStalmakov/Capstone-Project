@@ -122,10 +122,8 @@ html.Div(children=[
         html.Div(id='ifYouLike')
     ]),
         html.Div([
-        #table of songs
         dash_table.DataTable(id='print',style_table={'width': '100px'}, style_cell={'textAlign': 'center'}),
-        #graph of songs 
-        # dcc.Graph(id='graph')
+        dcc.Graph(id='graph')
     ]),
 
     html.Br(),
@@ -199,7 +197,11 @@ def ifYouLike(value, n_clicks):
     print(value)
     if n_clicks is not None:
         song = CollaborativeRecommender.songName(str(n_clicks))
-        return f'If you like {song}, you should try:'
+        if len(song)<1:
+            print(f"hmm... can't find any songs with '{value}.' Try again.")
+            
+        else: 
+            return f'If you like {song}, you should try:'
 
 #callback collab table SUCCESS!!
 @app.callback(
@@ -210,21 +212,27 @@ def ifYouLike(value, n_clicks):
 def search_recommendations(value, n_clicks):
     if n_clicks is not None:
         r = CollaborativeRecommender.finder(str(n_clicks))
-        print = r.to_dict('records')
-        return print
+        if r.size<0:
+            print('')
+        else:  
+            print = r.to_dict('records')
+            return print
 
 #callback bar chart SUCCESS!!
-# @app.callback(
-#     Output(component_id='graph', component_property='figure'),
-#     Input(component_id='submit-val', component_property='n_clicks'),
-#     State(component_id='input-on-submit', component_property='value')
-# )
-# def bar_maker(value, n_clicks):
-#     if n_clicks is not None:
-#         df = CollaborativeRecommender.grapher(str(n_clicks))
-#         graph= px.bar(data_frame=df, x=df.Artist, y=df.Similarity_Value, title='Most Similar Songs', labels={'x':'Song (Artist)','y':'Similarity'})
-#         #graph.show()
-#         return graph
+@app.callback(
+    Output('graph', 'figure'),
+    Input(component_id='submit-val', component_property='n_clicks'),
+    State(component_id='input-on-submit', component_property='value')
+)
+def bar_maker(value, n_clicks):
+    if n_clicks is not None:
+        df = CollaborativeRecommender.grapher(str(n_clicks))
+        if df.size<0:
+            print('')
+        else:    
+            graph= px.bar(data_frame=df, x=df.Artist, y=df.Similarity_Value, title='Most Similar Songs', labels={'x':'Song (Artist)','y':'Similarity'})
+            #graph.show()
+            return graph
 
 
 @app.callback(
