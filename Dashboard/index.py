@@ -28,10 +28,10 @@ tab_selected_style = {
 app.layout = html.Div([
     dcc.Markdown('# Music Streaming Song Recommender'),
     dcc.Tabs(id='tabs', value='tab-interface', children=[
-        dcc.Tab(label='User Interface', value='tab-interface'),
-        dcc.Tab(label='Intro', value='tab-intro'),
-        dcc.Tab(label='Behind the Scenes', value='tab-scenes'),
-        dcc.Tab(label='Target Market', value='tab-target'),
+        dcc.Tab(label='User Interface', value='tab-interface',style=tab_style, selected_style=tab_selected_style),
+        dcc.Tab(label='Intro', value='tab-intro',style=tab_style, selected_style=tab_selected_style),
+        dcc.Tab(label='Behind the Scenes', value='tab-scenes',style=tab_style, selected_style=tab_selected_style),
+        dcc.Tab(label='Target Market', value='tab-target',style=tab_style, selected_style=tab_selected_style),
         
     ]),
     html.Div(id='tabs-content'),
@@ -46,4 +46,4 @@ def render_content(tab):
     elif tab == 'tab-interface': return interface.layout
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server()
