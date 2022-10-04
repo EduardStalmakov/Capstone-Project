@@ -9,6 +9,7 @@ import plotly.express as px
 from model import content
 from model import CollaborativeRecommender
 from model import collab
+import dash_bootstrap_components as dbc
 
 # Getting the top 5 songs and top5 genres
 Playlist_Tracks_merged = content.Playlist_Tracks.merge(content.Tracks, how='inner', on='TrackID')
@@ -17,13 +18,31 @@ top_5_genre = Playlist_Tracks_merged['Genres'].value_counts().sort_values(ascend
 top_5_artist = Playlist_Tracks_merged['ArtistName'].value_counts().sort_values(ascending=False)[0:5]
 
 
-# Page Layout
+SIDEBAR_STYLE = {
+    "position": "fixed",
+    "top": 0,
+    "left": 0,
+    "bottom": 0,
+    "width": "16rem",
+    "padding": "2rem 1rem",
+    "background-color": "#f8f9fa",
+}
 
-layout = html.Div(children=[
+# the styles for the main content position it to the right of the sidebar and
+# add some padding.
+CONTENT_STYLE = {
+    "margin-left": "18rem",
+    "margin-right": "2rem",
+    "padding": "2rem 1rem",
+}
 
-    # Div for drop down and main text
-    html.Div([
-    html.Label(['Select User'],style={'font-weight': 'bold','padding':'0.8rem', 'font-size':'20px'}),
+sidebar = html.Div(
+    [
+        html.H2("Select User", className="display-4"),
+        html.Hr(),
+        html.P(
+            "Pick one user to view your personalized dashboard", className="lead"
+        ),
         dcc.Dropdown(
             id = 'user',
             options = [
@@ -33,9 +52,35 @@ layout = html.Div(children=[
                 {'label': 'demo-crassy', 'value': 3053},
                 {'label': 'pogopatterson', 'value': 2352}
                  ],
-            style={'backgroundColor': '#F5F5F5', 'width':'400px','justify-content':'center', 'align-items':'center'},
+            style={'backgroundColor': '#F5F5F5', 'width':'13rem','justify-content':'center', 'align-items':'center'},
             value= 3216
-             ),
+        ),
+    ],
+    style=SIDEBAR_STYLE,
+)
+
+# Page Layout
+
+layout = html.Div([
+sidebar, 
+html.Div(children=[
+    
+
+    # Div for drop down and main text
+    html.Div([
+    # html.Label(['Select User'],style={'font-weight': 'bold','padding':'0.8rem', 'font-size':'20px'}),
+        # dcc.Dropdown(
+        #     id = 'user',
+        #     options = [
+        #         {'label': 'LOVES-DESIRE', 'value': 3216 }, 
+        #         {'label': 'theuskid', 'value': 3248}, 
+        #         {'label': 'johnTMcNeill', 'value': 2980},
+        #         {'label': 'demo-crassy', 'value': 3053},
+        #         {'label': 'pogopatterson', 'value': 2352}
+        #          ],
+        #     style={'backgroundColor': '#F5F5F5', 'width':'400px','justify-content':'center', 'align-items':'center'},
+        #     value= 3216
+        #      ),
     html.H1(id='user-text', style={'text-align': 'center', 'color':'#6699CC', 'font-weight':'bold','font-size':'60px'}),
     ], style={'width': '100%','align-items': 'center', 'justify-content': 'center'}),
 
@@ -97,7 +142,7 @@ layout = html.Div(children=[
                 'border-radius': '10px', 'backgroundColor': 'White','width':'500px'}),
     ]),
     ], style={'display':'inline-flex'})
-])
+])],style={'display':'inline'})
 
 
 # Callbacks and functions

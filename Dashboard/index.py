@@ -5,7 +5,7 @@ from app import app, server
 from tabs import intro, target, scenes, interface 
 from model import content
 
-style = {'maxWidth': '1500px', 'margin': 'auto'}
+style = {'maxWidth': '1300px', 'margin': 'auto'}
 
 tabs_styles = {
     'height': '60px'
