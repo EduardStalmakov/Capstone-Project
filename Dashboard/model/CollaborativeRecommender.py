@@ -83,6 +83,10 @@ recommender = cosine_distances(pivot_sparse)
 recommender_df = pd.DataFrame(recommender, columns=pivot.index, index=pivot.index)
 # print(recommender_df.head())
 
+
+
+
+
 def finder(n_clicks):
 # def finder():
 #     n_clicks = input('\nSearch: ')
@@ -110,38 +114,29 @@ def finder(n_clicks):
     # print(theSong)
     # print('===info about theSong')
     # print(theSong)
-    #to get the top 5, not including the search track
-    results.append(recommender_df[theSong].sort_values()[1:6])
-#will return top 5 tracks most similar the search track
-    # print(results)
-###RETIRED
-# #def finder(choice, n_clicks):
-# def finder():
-#     value = input('\nSearch: ')
-#     results=[]
-#     songfinder = PlaylistTracks[PlaylistTracks['Song_Artist'].str.contains(choice)]['Song_Artist']
-    # print(f'Since you like "{songfinder.iloc[0]}" up next is:' )
-#     results.append(recommender_df[songfinder.iloc[0]].sort_values()[1:11])
-    # print(f'Up next: {recommender_df[songfinder.iloc[0]].sort_values()[1:11]}')
-
-#this is original
-    #make the results into a dataframe
-    x = pd.DataFrame(results)
+    results.append(recommender_df[theSong].sort_values()[1:6]) #to get the top 5, not including the search track
+    x = pd.DataFrame(results) #make the results into a dataframe
 
     list = []
 
     for i in x.columns:
         dict = {}
-        dict['Artist'] = i
-        dict['Similarity_Value'] = x[i].values
+        dict['Song_Artist'] = i
+        dict['Percent_Similar'] = (1-(x[i].values))
         list.append(dict)
     g = pd.DataFrame(list)
-    g['Similarity_Value'] = g['Similarity_Value'].apply(lambda x: x[0])
+    g['Percent_Similar'] = g['Percent_Similar'].apply(lambda x: x[0])
+    g.loc[:, "Percent_Similar"] =g["Percent_Similar"].map('{:.0%}'.format)
+
     # print('this is g')
-    # g.info()
+    # print(g)
     # print('this is g info')
     # g.info()
     return g
+
+
+
+
 
 def songName(value):
 # def songName():
@@ -174,59 +169,18 @@ def songName(value):
 
     # print('The shape of series:',theSong.shape)
 
-    #print(theSong)
+    # print(theSong)
 
     # songfinder = PlaylistTracks[PlaylistTracks['Song_Artist'].str.contains(value)]['Song_Artist']
     # song = songfinder.iloc[0]
     return theSong
 
-def grapher(n_clicks):
-# def grapher():
-#     n_clicks = input('\nSearch: ')
-    results=[]
-    songfinder = PlaylistTracks[PlaylistTracks['Song_Artist'].str.contains(n_clicks)]['Song_Artist'] #creates a series of all track/artist that include the value entered in search bar
-    
-    # songfinder.info()
-    #====================good to here
-    df = pd.DataFrame(songfinder) #convert series into a dataframe
-  
-    #===============this is the new part
-    df.drop( df.index.to_list()[1:] ,axis = 0, inplace=True)
 
-    theSong=df.squeeze() #get the first result from the dataframe (creating a series of just the first matching song)
-  
-    #to get the top 5, not including the search track
-    results.append(recommender_df[theSong].sort_values()[1:6])
-#will return top 5 tracks most similar the search track
-    # print('===this is results')
-    # print(results)
-
-    x = pd.DataFrame(results)
-
-    list = []
-
-    for i in x.columns:
-        dict = {}
-        dict['Artist'] = i
-        dict['Similarity_Value'] = (1-(x[i].values))
-        list.append(dict)
-
-
-    # (print('===this is list'))
-    # print(list)
-    g = pd.DataFrame(list)
-    g['Similarity_Value'] = g['Similarity_Value'].apply(lambda x: x[0])
-    # print('=====this is g')
-    # print(g)
-    # print('=====this is g info')
-#     # g.info()
-    # graph= px.bar(data_frame=g, x=g.Artist, y=g.Similarity_Value, title='Most Similar Songs', labels={'x':'Song (Artist)','y':'Similarity'})
-    # graph.show()
-    return g
-
-
-#finder()
+# finder()
 #songName()
+
+
+
 #grapher()
 
     

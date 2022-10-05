@@ -2,3 +2,4 @@ Dashboard/__pycache__
 Dashboard/model/__pycache__
 Dashboard/tabs/__pycache__
 Dashboard/tabs/supp_files/__pycache__
+config.py
