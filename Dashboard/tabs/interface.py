@@ -1,172 +1,191 @@
+# References external libraries
 from dash.dependencies import Input, Output
 from dash import html, dcc, State, dash_table
 from app import app
-import plotly.express as px
-# Importing my content based recommender
+# References files in this repository
 from model import content
 from model import CollaborativeRecommender
-from model import collab
-import dash_bootstrap_components as dbc
-import requests
-import json
-
-# Getting the top 5 songs and top5 genres
-Playlist_Tracks_merged = content.Playlist_Tracks.merge(content.Tracks, how='inner', on='TrackID')
-top_5_songs = Playlist_Tracks_merged['TrackName'].value_counts().sort_values(ascending=False)[0:5]
-top_5_genre = Playlist_Tracks_merged['Genres'].value_counts().sort_values(ascending=False)[0:5]
-top_5_artist = Playlist_Tracks_merged['ArtistName'].value_counts().sort_values(ascending=False)[0:5]
-
+from tabs.supp_files import db_metrics
 
 SIDEBAR_STYLE = {
-    "position": "fixed",
-    "top": 0,
-    "left": 0,
-    "bottom": 0,
-    "width": "16rem",
-    "padding": "2rem 1rem",
-    "background-color": "#f8f9fa",
+    "position"          :   "fixed",
+    "top"               :   0,
+    "left"              :   0,
+    "bottom"            :   0,
+    "width"             :   "16rem",
+    "padding"           :   "2rem 1rem",
+    "background-color"  :   "#BDBDBD",
 }
 
-# the styles for the main content position it to the right of the sidebar and
-# add some padding.
+# The styles for the main content position it to the right of the sidebar and add some padding.
 CONTENT_STYLE = {
-    "margin-left": "18rem",
-    "margin-right": "2rem",
-    "padding": "2rem 1rem",
+    "margin-left"       : "18rem",
+    "margin-right"      : "2rem",
+    "padding"           : "2rem 1rem",
 }
 
 sidebar = html.Div(
     [
-        html.H2("Select User", className="display-4"),
+        html.H2(
+            "Select User", className = "display-4",
+            style = {'color' : 'black', 'fontSize' : '5rem', 'fontWeight' : 'bold'}
+        ),
         html.Hr(),
         html.P(
-            "Pick one user to view your personalized dashboard", className="lead"
+            "Pick one user to view your personalized dashboard", className = "lead",
+            style = {'color' : 'black', 'fontSize' : '2rem'}
         ),
         dcc.Dropdown(
             id = 'user',
             options = [
-                {'label': 'LOVES-DESIRE', 'value': 3216 }, 
-                {'label': 'theuskid', 'value': 3248}, 
-                {'label': 'johnTMcNeill', 'value': 2980},
-                {'label': 'demo-crassy', 'value': 3053},
-                {'label': 'pogopatterson', 'value': 2352}
+                {'label': 'LOVES-DESIRE',   'value': 3216}, 
+                {'label': 'theuskid',       'value': 3248}, 
+                {'label': 'johnTMcNeill',   'value': 2980},
+                {'label': 'demo-crassy',    'value': 3053},
+                {'label': 'pogopatterson',  'value': 2352}
             ],
-            style={'backgroundColor': '#F5F5F5', 'width':'13rem','justify-content':'center', 'align-items':'center'},
-            value= 3216
+            style = {'fontSize' : '1.5rem', 'backgroundColor' : 'white', 'width' : '13rem', 
+                        'justify-content' : 'center', 'align-items' : 'center'},
+            value = 3216
         ),
     ],
     style=SIDEBAR_STYLE,
 )
 
 # Page Layout
-
-layout = html.Div([
-sidebar, 
-html.Div(children=[
-    
-
-    # Div for drop down and main text
-    html.Div([
-    # html.Label(['Select User'],style={'font-weight': 'bold','padding':'0.8rem', 'font-size':'20px'}),
-        # dcc.Dropdown(
-        #     id = 'user',
-        #     options = [
-        #         {'label': 'LOVES-DESIRE', 'value': 3216 }, 
-        #         {'label': 'theuskid', 'value': 3248}, 
-        #         {'label': 'johnTMcNeill', 'value': 2980},
-        #         {'label': 'demo-crassy', 'value': 3053},
-        #         {'label': 'pogopatterson', 'value': 2352}
-        #          ],
-        #     style={'backgroundColor': '#F5F5F5', 'width':'400px','justify-content':'center', 'align-items':'center'},
-        #     value= 3216
-        #      ),
-    html.H1(id='user-text', style={'text-align': 'center', 'color':'#6699CC', 'font-weight':'bold','font-size':'60px'}),
-    ], style={'width': '100%','align-items': 'center', 'justify-content': 'center'}),
-
-    html.Div([
-    # Div to hold graphs in a row
-
-    html.Div([
-    # Recommendations title
-    html.H4(['Choose a playlist to get song recommendations in real time!'],style={'text-align':'left', 'padding':'0.9rem','font-size':'20px'}),
-
-
-    # Div to hold playlist selection box
-    html.Div([
-        # html.Label(['Select Playlist'],style={'font-weight': 'bold', 'padding':'0.8rem'}),
-        # html.Br(),
-        dcc.Dropdown(
-            id='dropdown',
-            value = 9519,
-            style={'backgroundColor': '#F5F5F5', 'width':'500px'}),
-    ],style={'display':'inline-flex'}),
-
-
-    # Div to show the recommendations in a table
-    html.Div([
-        dash_table.DataTable(
-            id='recommendations',
-            style_table={'width': '100px', 'padding':'0.8rem'}, 
-            style_cell={'textAlign': 'left'},  
-            style_as_list_view=True,          
-            style_header={
-                'backgroundColor': '#003B6D',
-                'fontWeight': 'bold'},)]),
- 
-    html.H4([''],style={'text-align':'left','font-size':'20px'}),
-    html.H4(['Get recommendations based on what other users saved to their playlists: Type a Song Name'],style={'text-align':'left','font-size':'20px'}),
-
-    #////////////////// collab recommender section
-    html.Div([
-        html.Div(dcc.Input(id='input-on-submit', type='text')),
-        html.Button('Submit', id='submit-val', n_clicks=0),
-        html.Div(id='container-button-basic',
-                children='Enter a value and press submit'),
-        html.Div(html.P([html.Br(),''])),
-        #if you like statement
-        html.Div(id='ifYouLike')
-    ]),
-        html.Div([
-        dash_table.DataTable(id='goodsongs',
-            style_table={'width': '100px'}, 
-            style_cell={'textAlign': 'center'}, 
-            style_as_list_view=True,
-            style_header={
-                'backgroundColor': '#003B6D',
-                'fontWeight': 'bold'},
-            
-
+layout = html.Div(
+    [
+        sidebar, 
+        html.Div(children = 
+            [
+                # Div for drop down and main text
+                html.Div(
+                    [
+                        html.H1(id='user-text', style={'text-align': 'center', 'color':'#6699CC', 'font-weight':'bold','font-size':'60px'}),
+                    ], 
+                    style={'width': '100%','align-items': 'center', 'justify-content': 'center'}
+                ),
+                html.Div(
+                    [
+                        # Div to hold graphs in a row
+                        html.Div(
+                            [
+                                # Recommendations title
+                                html.H4(
+                                    'Choose a playlist to get song recommendations in real time!',
+                                    style = {'text-align' : 'left', 'padding' : '0.9rem', 'fontSize' : 40}
+                                ),
+                                # Div to hold playlist selection box
+                                html.Div(
+                                    [
+                                        dcc.Dropdown(
+                                            id='dropdown',
+                                            value = 9519,
+                                            style={'backgroundColor' : '#F5F5F5', 'width' : '500px', 'fontSize' : 30}
+                                        ),
+                                    ],
+                                    style={'display':'inline-flex'}
+                                ),
+                                # Div to show the recommendations in a table
+                                html.Div(
+                                    [
+                                        dash_table.DataTable(
+                                            id='recommendations',
+                                            style_table={'width': '50rem', 'padding':'0.8rem'}, 
+                                            style_cell={'textAlign': 'left', 'fontSize' : 20},  
+                                            style_as_list_view=True,          
+                                            style_header={
+                                                'backgroundColor': '#003B6D',
+                                                'fontWeight': 'bold',
+                                                'fontSize' : 20
+                                            },
+                                        )
+                                    ]
+                                ),   
+                                html.H4([''], style = {'text-align' : 'left'}),
+                                html.H4(
+                                    'Get recommendations based on what other users saved to their playlists:',
+                                    style = {'text-align' : 'left', 'fontSize' : 40}
+                                ),
+                                html.H4(
+                                    'Type a Song Name',
+                                    style = {'text-align' : 'left', 'fontSize' : 30}
+                                ),                                
+                                # Collab recommender section
+                                html.Div(
+                                    [
+                                        html.Div(
+                                            dcc.Input(
+                                                id='input-on-submit', type='text',
+                                                style = {'fontSize' : 30}
+                                            )
+                                        ),
+                                        html.Button(
+                                            'Submit', id='submit-val', n_clicks=0,
+                                            style = {'fontSize' : 30}
+                                        ),
+                                        html.Div(
+                                            id='container-button-basic',
+                                            children='Enter a value and press submit'
+                                        ),
+                                        html.Div(html.P([html.Br(),''])),
+                                         # If you like statement
+                                        html.Div(id='ifYouLike')
+                                    ]
+                                ),
+                                html.Div(
+                                    [
+                                        dash_table.DataTable(
+                                            id='goodsongs',
+                                            style_table={'width': '50rem'}, 
+                                            style_cell={'textAlign': 'center', 'fontSize' : 20}, 
+                                            style_as_list_view=True,
+                                            style_header={
+                                                'backgroundColor': '#003B6D',
+                                                'fontWeight': 'bold',
+                                                'fontSize' : 20
+                                            },
+                                        )
+                                    ]
+                                ),
+                            ]
+                        ),
+                        html.Div(
+                            [
+                                dcc.Graph(
+                                    id = 'top-5-song', 
+                                    figure = db_metrics.top_5_track, 
+                                    style = {
+                                        'padding' : '0.8rem', 'marginTop':'1rem', 'marginLeft' : '1rem', 'boxShadow' : '#e3e3e3 2px 2px 1px', 
+                                        'border-radius' : '10px', 'backgroundColor' : '#BDBDBD', 'width' : '500px'
+                                    }
+                                ),
+                                dcc.Graph(
+                                    id = 'top-5-genre', 
+                                    figure = db_metrics.top_5_genre,
+                                    style = {
+                                        'padding' : '0.8rem', 'marginTop' : '1rem', 'marginLeft' : '1rem', 'boxShadow' : '#e3e3e3 2px 2px 1px', 
+                                        'border-radius' : '10px', 'backgroundColor' : '#BDBDBD', 'width' :'500px'
+                                    }
+                                ),
+                                dcc.Graph(
+                                    id = 'top-5-artist', 
+                                    figure = db_metrics.top_5_artist,
+                                    style = {
+                                        'padding' : '0.8rem', 'marginTop' : '1rem', 'marginLeft' : '1rem', 'boxShadow' : '#e3e3e3 2px 2px 1px', 
+                                        'border-radius' : '10px', 'backgroundColor' : '#BDBDBD', 'width' : '500px'
+                                    }
+                                ),
+                            ]
+                        ),
+                    ], 
+                    style={'display':'inline-flex'}
+                )
+            ]
+        )
+    ],
+    style={'display':'inline'}
 )
-        
-    ]),
-
-    ]),
-    html.Div([
-
-    dcc.Graph(id = 'top-5-song', figure= px.bar(x=top_5_songs.index, y=top_5_songs.values, title='Top Trending Songs', 
-                labels={'x':'Song','y':'Count on Playlists'}), 
-                style={'padding':'0.8rem', 'marginTop':'1rem', 'marginLeft':'1rem', 'boxShadow': '#e3e3e3 2px 2px 1px', 
-                'border-radius': '10px', 'backgroundColor': 'White', 'width':'500px'}),
-
-
-    dcc.Graph(id = 'top-5-genre', figure= px.bar(x=top_5_genre.index, y=top_5_genre.values, title='Top Trending Genres', 
-                labels={'x':'Genre','y':'Count on Playlists'}), 
-                style={'padding':'0.8rem', 'marginTop':'1rem', 'marginLeft':'1rem', 'boxShadow': '#e3e3e3 2px 2px 1px', 
-                'border-radius': '10px', 'backgroundColor': 'White','width':'500px' }),
-
-    dcc.Graph(id = 'top-5-artist', figure= px.bar(x=top_5_artist.index, y=top_5_artist.values, title='Top Trending Artists', 
-                labels={'x':'Artist','y':'Count on Playlists'}), 
-                style={'padding':'0.8rem', 'marginTop':'1rem', 'marginLeft':'1rem', 'boxShadow': '#e3e3e3 2px 2px 1px', 
-                'border-radius': '10px', 'backgroundColor': 'White','width':'500px'}),
-    ]),
-    ], style={'display':'inline-flex'})
-])],style={'display':'inline'})
-
-
-
-
-
-
 
 
 #callback to get "if you like" statement SUCCESS!!
@@ -176,21 +195,13 @@ html.Div(children=[
     State(component_id='input-on-submit', component_property='value')
 )
 def ifYouLike(value, n_clicks):
-    # print('this is n_clicks')
-    # print(n_clicks)
-    # print('this is value')
-    # print(value)
     if n_clicks is not None:
-        song = CollaborativeRecommender.songName(str(n_clicks)) #returns a series 
-        # print('this is song')
-        # print(song)
-        # print('this is len song')
-        # print(len(song))
+        song = CollaborativeRecommender.songName(str(n_clicks)) 
         if len(song)<1:
-            return(f"hmm... can't find any songs with '{n_clicks}.' Try again.")
-            
+            return f"hmm... can't find any songs with '{n_clicks}.' Try again."    
         else: 
             return f'If you like {song}, you should try:'
+
 
 #callback collab table SUCCESS!!
 @app.callback(
@@ -210,14 +221,13 @@ def search_recommendations(value, n_clicks):
 
 @app.callback(
     Output('user-text', 'children'),
-    [Input(component_id='user', component_property='value')]
+    [Input(component_id = 'user', component_property = 'value')]
 )
 def change_user_welcome_message(value):
     user = content.Users
     user = user[user['UserID'] == int(value)].copy()
 
     return f"Welcome {user['UserName'].values[0]}"
-
 
 
 @app.callback(
@@ -230,19 +240,15 @@ def select_user(value):
     options = [{'label': playlist[2], 'value': playlist[0]} for playlist in Playlists.values]
     return options
 
+
 #callback function to get the selected dropdown value and output the data from the function
 @app.callback(
     Output('recommendations', 'data'),
     [Input(component_id='dropdown', component_property='value')]
 )
-
 #Function to run the cosine similarity model and retun a dictionary from the dataframe as input for the dash_table
 def get_recommendations(value):
-
     recommendations = content.display_recommendations(int(value))
     recommendations_slice = recommendations[['TrackName','ArtistName']]
-    
-
-    # fig = px.bar(t, x='TrackName', y='sim')
     final_data = recommendations_slice.to_dict('records')
     return final_data

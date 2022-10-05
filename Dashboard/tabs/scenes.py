@@ -7,21 +7,21 @@ from app import app
 from tabs.supp_files import pl_sizes, db_metrics
 
 # Render the page(s) layout
-SIDEBAR_STYLE   =   {
-    'position': 'fixed',
-    'top': 0,
-    'left': 0,
-    'bottom': 0,
-    'width': '16rem',
-    'padding': '2rem 1rem',
-    'background-color': '#676767',
+SIDEBAR_STYLE = {
+    'position'          :   'fixed',
+    'top'               :   0,
+    'left'              :   0,
+    'bottom'            :   0,
+    'width'             :   '16rem',
+    'padding'           :   '2rem 1rem',
+    'background-color'  :   '#BDBDBD',
 }
 
 sidebar = html.Div(
     [
         html.H2(
             'Learn More', className = 'sidebar-title', 
-            style = {'color' : 'black', 'fontSize' : '5rem'}
+            style = {'color' : 'black', 'fontSize' : '5rem', 'fontWeight' : 'bold'}
         ),
         html.Hr(),
         html.P(
@@ -40,11 +40,11 @@ sidebar = html.Div(
                     style = {'fontSize' : '1.5rem'}
                 ),
             ],
-            vertical= True,
-            pills   = True,
+            vertical = True,
+            pills = True,
         ),
     ],
-    style   = SIDEBAR_STYLE
+    style = SIDEBAR_STYLE
 )
 
 content =   html.Div(id = 'page-count')
