@@ -89,7 +89,7 @@ def render_page_content(pathname):
                                         ### **{db_metrics.art_count}**
                                         ### **{db_metrics.max_trk}**
                                         ### **{db_metrics.min_trk}**
-                                    ''', style = {'color' : '#003B6D'})
+                                    ''', style = {'color' : '#6699CC'})
                                 ]
                             )
                         ),
@@ -109,11 +109,11 @@ def render_page_content(pathname):
                             dbc.Row(
                                 [
                                     dcc.Markdown(f'''
-                                        ### **{db_metrics.trk_count}**
-                                        ### **{db_metrics.art_count}**
-                                        ### **{db_metrics.max_trk}**
-                                        ### **{db_metrics.min_trk}**
-                                    ''', style = {'color' : '#003B6D'})
+                                        ### **{db_metrics.usr_count}**
+                                        ### **{db_metrics.pl_count}**
+                                        ### **{db_metrics.max_pl}**
+                                        ### **{db_metrics.min_pl}**
+                                    ''', style = {'color' : '#6699CC'})
                                 ]
                             )
                         )
