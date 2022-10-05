@@ -1,7 +1,3 @@
-
-
-
-import re
 from dash.dependencies import Input, Output
 from dash import html, dcc, State, dash_table
 from app import app
@@ -54,7 +50,7 @@ sidebar = html.Div(
                 {'label': 'johnTMcNeill', 'value': 2980},
                 {'label': 'demo-crassy', 'value': 3053},
                 {'label': 'pogopatterson', 'value': 2352}
-                 ],
+            ],
             style={'backgroundColor': '#F5F5F5', 'width':'13rem','justify-content':'center', 'align-items':'center'},
             value= 3216
         ),
@@ -228,4 +224,3 @@ def get_recommendations(value):
     # fig = px.bar(t, x='TrackName', y='sim')
     final_data = recommendations_slice.to_dict('records')
     return final_data
-
