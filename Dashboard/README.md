@@ -1,6 +1,6 @@
 
 /model/ - the model directory
-- content.py is the content based model using cosine similarity
+- content.py - The content based model using cosine similarity
 
 /tabs/ - the tabs directory
 
