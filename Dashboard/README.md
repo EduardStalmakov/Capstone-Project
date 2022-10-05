@@ -1,6 +1,7 @@
 
 /model/ - the model directory
 - content.py - The content based model using cosine similarity
+- CollaborativeRecommender.py - The collaborative machine learning model
 
 /tabs/ - the tabs directory
 
