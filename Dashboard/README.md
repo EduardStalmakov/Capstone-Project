@@ -1,9 +1,10 @@
 
-model - the model directory
+/model/ - the model directory
 - content.py is the content based model using cosine similarity
 
-tabs - the tabs directory
+/tabs/ - the tabs directory
 
+- /supp_files/ - Additional code files to streamline code and improve readability.
 - demographics.py - The code for the demographics tab.
 - interface.py - The code for the interface tab.
 - intro.py - The code for the intro tab.
