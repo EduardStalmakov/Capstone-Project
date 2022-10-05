@@ -1,4 +1,3 @@
-from turtle import Turtle
 import pandas as pd
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
@@ -8,6 +7,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 from dash import Dash, dcc, html, Input, Output
 import plotly.express as px
 
+#Ignores pandas warning for chained assignments.
+pd.options.mode.chained_assignment = None
 
 # Get the database Tables
 

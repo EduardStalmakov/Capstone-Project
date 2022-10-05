@@ -1,53 +1,179 @@
+# References external libraries
 from dash.dependencies import Input, Output
-from dash import html, dcc 
-# from app import app
-import plotly.express as px
-import pymssql
-import pandas as pd
+from dash import html, dcc
+import dash_bootstrap_components as dbc
+# References files in the repository
+from app import app
+from tabs.supp_files import pl_sizes, db_metrics
 
-database    =   'landodatalakes-group4'
-user        =   'spotify'
-password    =   'T35TPA55W0RD!'
-server      =   'gen10-data-fundamentals-22-07-sql-server.database.windows.net'
+# Render the page(s) layout
+SIDEBAR_STYLE   =   {
+    'position': 'fixed',
+    'top': 0,
+    'left': 0,
+    'bottom': 0,
+    'width': '16rem',
+    'padding': '2rem 1rem',
+    'background-color': '#676767',
+}
 
-conn    = pymssql.connect(server, user, password, database)
-cursor  = conn.cursor()
+sidebar = html.Div(
+    [
+        html.H2(
+            'Learn More', className = 'sidebar-title', 
+            style = {'color' : 'black', 'fontSize' : '5rem'}
+        ),
+        html.Hr(),
+        html.P(
+            'A quick glimpse behind the scenes', className = 'lead', 
+            style = {'color' : 'black', 'fontSize' : '2rem'}
+        ),
+        dbc.Nav(
+            [
+                dbc.NavLink(
+                    'Database Metrics', href = '/', active = 'exact',
+                    style = {'fontSize' : '1.5rem'}
+                ),
+                html.P(),
+                dbc.NavLink(
+                    'Machine Learning Models', href = '/ml_models', active = 'exact',
+                    style = {'fontSize' : '1.5rem'}
+                ),
+            ],
+            vertical= True,
+            pills   = True,
+        ),
+    ],
+    style   = SIDEBAR_STYLE
+)
 
-# Get a DataFrame that uses SQL to merge the Playlist and PlaylistTrack tables
-Playlist_PT = pd.read_sql(f'SELECT UserName, P.UserID, PlaylistTitle, P.PlaylistID,                 \
-                                TrackID FROM Playlist P JOIN PlaylistTrack PT                       \
-                                ON P.PlaylistID = PT.PlaylistID JOIN LastFmUsers U                  \
-                                ON P.UserID = U.UserID', conn)
+content =   html.Div(id = 'page-count')
+layout  =   html.Div(
+    [
+        dcc.Location(id = 'url'),
+        sidebar,
+        content
+    ]
+)
 
-num_trk_pl = Playlist_PT.groupby(['UserName', 'PlaylistTitle']).agg({'TrackID':'count'})
-num_trk_pl.sort_values(by='TrackID', ascending=False, inplace=True)
-num_trk_pl.reset_index(inplace=True)
-num_trk_pl['Playlist [User]'] = num_trk_pl['PlaylistTitle'].str[0:12] + "...<br>[" + num_trk_pl['UserName'] + "]"
-num_trk_pl = num_trk_pl[['Playlist [User]', 'TrackID']]
-# print(num_trk_pl)
-
-top5_pl     =   num_trk_pl.head()
-top5_pl['Rank'] = "Largest 5"
-bot5_pl     =   num_trk_pl.tail()
-bot5_pl['Rank'] = "Smallest 5"
-top5_bot5   =   pd.concat([top5_pl, bot5_pl])
-# print(top5_bot5)
-
-pl_sizes = px.bar(x = top5_bot5['Playlist [User]'], y = top5_bot5['TrackID'],
-                        facet_col = top5_bot5['Rank'], 
-                        title = 'Playlist Sizes By Number of Tracks'.upper(), 
-                        labels = {'x' : 'Playlist [User]', 'y' : 'Number of Tracks'},
-                        text = top5_bot5['TrackID'], width = 1300, height = 1000)
-pl_sizes.update_xaxes(matches = None)
-pl_sizes.for_each_annotation(lambda a: a.update(text=a.text.split("=")[1]))
-pl_sizes.add_annotation(x = 4.5, y = 11, text = 'AVG (10 Tracks)', font = {'color' : 'black'})
-pl_sizes.add_hline(y = 10, line_dash = 'dash', line_color = 'grey')
-pl_sizes.update_layout(title_font_size = 30, title_font_color = '#BDBDBD', title_x = 0.5,
-                            font_color = '#6699CC', paper_bgcolor = '#2A3439')
-
-layout = html.Div([
-html.P(),
-
-dcc.Graph(id = 'pl-size', figure = pl_sizes)
-
-])
+@app.callback(Output('page-count', 'children'), [Input('url', 'pathname')])
+def render_page_content(pathname):
+    if pathname == '/':
+        return html.Div(
+            [
+                html.P(),
+                html.H1(
+                    'Database Metrics', 
+                    style = {'color' : '#6699CC', 'fontSize' : '3rem'}
+                ),
+                html.P(),
+                dbc.Row(
+                    [
+                        dbc.Col(
+                            dbc.Row(
+                                [
+                                    dcc.Markdown(f'''
+                                        ###        Number of Tracks:
+                                        ###       Number of Artists:
+                                        ### Max Tracks to an Artist:
+                                        ### Min Tracks to an Artist:
+                                    ''', style = {'textAlign' : 'right'})
+                                ]
+                            )
+                        ),
+                        dbc.Col(
+                            dbc.Row(
+                                [
+                                    dcc.Markdown(f'''
+                                        ### **{db_metrics.trk_count}**
+                                        ### **{db_metrics.art_count}**
+                                        ### **{db_metrics.max_trk}**
+                                        ### **{db_metrics.min_trk}**
+                                    ''', style = {'color' : '#003B6D'})
+                                ]
+                            )
+                        ),
+                        dbc.Col(
+                            dbc.Row(
+                                [
+                                    dcc.Markdown(f''' 
+                                        ###         Number of Users:
+                                        ###     Number of Playlists:
+                                        ### Max Playlists to a User:
+                                        ### Min Playlists to a User:
+                                    ''', style = {'textAlign' : 'right'})
+                                ]
+                            )
+                        ),
+                        dbc.Col(
+                            dbc.Row(
+                                [
+                                    dcc.Markdown(f'''
+                                        ### **{db_metrics.trk_count}**
+                                        ### **{db_metrics.art_count}**
+                                        ### **{db_metrics.max_trk}**
+                                        ### **{db_metrics.min_trk}**
+                                    ''', style = {'color' : '#003B6D'})
+                                ]
+                            )
+                        )
+                    ]
+                ),
+                html.P(),
+                dcc.Graph(id = 'pl-size', figure = pl_sizes.pl_sizes)
+            ]
+        )
+    elif pathname   == '/ml_models':
+        return html.Div(
+            [
+                html.P(),
+                html.H1(
+                    'Machine Learning Models', 
+                    style = {'color' : '#6699CC', 'fontSize' : '3rem'}
+                ),
+                html.P(),
+                dcc.Markdown('''
+                    ### The Content Recommender Model
+                    The content recommender model uses cosine similarity to recommend songs
+                    that are most similar to a user's selected playlist. This machine learning
+                    algorithm works by first converting each song into a vector with 823 
+                    dimensions/features. The features include the song's genre, attributes, 
+                    popularity, and Release Year. When a user selects a playlist, a vector is 
+                    built based on the sum of the song features to create an eigenvector for 
+                    the playlist. This eigenvector and all of the song vectors are normalized 
+                    by dividing by their Euclidean magnitudes. Afterwards, a dot product between 
+                    the normalized playlist and each song's unit vector is performed to calculate 
+                    the cosine similarity. These values range from 0 (no similarity) to 1 (perfectly 
+                    similar) and are sorted in descending order. The top 10 songs are selected as 
+                    the recommendations.
+                ''', style = {'fontSize' : 20}),
+                html.P(),
+                dcc.Markdown('''
+                    ### The Collaborative Recommender Model
+                    The collaborative recommender model uses cosine distances of a searched song to 
+                    recommend songs that appear most often on other users' playlists that also include 
+                    the searched song. For readability to the end user, the cosine of 1 to -1  is 
+                    converted to pairwise distance of 0 to 1. 0 being the song most similar to the 
+                    searched song, and 1 being the most dissimilar. 
+                    This machine learning algorithm works by first joining datasets to have each row 
+                    represent a song and a playlist on which it is included. A song can be 
+                    listed more than once if it is on more than one playlist. We want to know 
+                    on which playlist a song is listed, so we create a pivot table with the index being 
+                    the song and the columns being playlists. This creates a huge dataframe where if 
+                    a specific song is on a specific playlist, it will return a 1. Everything else is 0.  
+                    To make the data more manageable, the pivot table is converted into a sparse matrix. 
+                    Sparse matrices only show values that exist; in this case, the 1s. From here, we can 
+                    calculate the cosine distance. This returns a distance matrix, comparing every song 
+                    with every other song in the dataset.
+                    The distance matrix is an array that starts with a 0, meaning that a specific song is 
+                    similar to itself. There is a diagonal line of the songs being similar to themselves 
+                    across the array. From there, we convert the array into a dataframe. A user enters a 
+                    search for a song, that search term is used to find a matching song/artist. The returned 
+                    songs are sorted in ascending order, meaning that the most similar songs come first. 
+                    This model only works if users have a song saved to their playlist. If new songs get 
+                    added to a music streaming platform, it will not be on any playlists, thus will not 
+                    get recommended. As users add it to their playlists, a correlation will develop and we 
+                    will be able to see what other songs people like that song listen to. 
+                ''', style = {'fontSize' : 20})
+            ]
+        )

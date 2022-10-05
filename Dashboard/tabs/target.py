@@ -15,6 +15,7 @@ RS = df2['Race'].value_counts()/len(df2) * 100
 ES = df2['EmploymentStatus'].value_counts()/len(df2) * 100
 
 layout = html.Div(children=[
+    html.P(),
     dcc.Markdown("""
     ### Target Market
 
