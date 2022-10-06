@@ -81,6 +81,14 @@ Their were two types of machine learning used in this project, a content and a c
 The content recommender model uses cosine similarity to recommend songs that are most similar to a user’s selected playlist. This machine learning algorithm works by first converting each song into a vector with 823 dimensions/features. The features include the song’s genre, attributes, popularity, and Release Year. When a user selects a playlist, a vector is built based on the sum of the song features to create an eigenvector for the playlist. This eigenvector and all of the song vectors are normalized by dividing by their Euclidean magnitudes. Afterwards, a dot product between the normalized playlist and each song’s unit vector is performed to calculate the cosine similarity. These values range from 0 (no similarity) to 1 (perfectly similar) and are sorted in descending order. The top 10 songs are selected as the recommendations. 
 
 
+<ins>Collaborative Recommender</ins>
+
+The collaborative recommender model uses cosine distances of a searched song to recommend songs that appear most often on other users playlists that also include the searched song. For readability to the end user, the cosine of 1 to -1  is converted to pairwise distance of 0 to 1. 0 being the song most similar to the searched song, and 1 being the most dissimilar. 
+This machine learning algorithm works by first joining datasets to have each row represent a song and a playlist on which it is included. Therefore, a song can be listed more than once if it is on more than one playlist. However, we want to know on which playlist a song is listed, so we create a pivot table with the index being the song, and the columns being playlists. This creates a huge dataframe where if a specific song is on a specific playlist, it will return a 1. Everything else is 0.  To make the data more manageable, the pivot table is converted into a sparse matrix. Sparse matrices only show values that exist, so the 1s. From here, we can calculate the cosine distance. This returns a distance matrix, comparing every song with every other song in the dataset.
+The distance matrix is an array that starts with a 0, meaning that a specific song is similar to itself. There is a diagonal line of the songs being similar to themselves across the array. From there, we convert the array into a dataframe. A user enters a search for a song, that search term is used to find a matching song/artist.  The returned songs are sorted in ascending order, so closest to 0, which is most similar, first. 
+ This model only works if users have a song saved to their playlist. if new songs get added to a music streaming platform, it will not be on any playlists, thus will not get recommended. As users add it to their playlists, a correlation will develop and we will be able to see what other songs people like that song listen to. 
+
+
 <a name="Visuals"></a>
 ## Visualizations
 
