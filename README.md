@@ -29,11 +29,17 @@ Your environment is now ready to go.
 ## Datasets
 
 Three datasets pertaining to music streaming and United States demographics are used to create a narrative of music streaming in the United States.
-Current Population Survey: Computer and Internet Use Supplement 2019
+
+<ins>Current Population Survey: Computer and Internet Use Supplement 2019</ins>
+
 Current Population Survey: Computer and Internet Use Supplement 2019 (United States Census Bureau, 2020) from the United States Census Bureau illustrated the demographic characteristics of households in the United States that, among other things, stream music. 
-Spotify Dataset 1921-2020, 600k+ Tracks
+
+<ins>Spotify Dataset 1921-2020, 600k+ Tracks</ins>
+
 The first large dataset we used for the data streaming and machine learning of this project was “Spotify Dataset 1921-2020, 600k+ Tracks” (Eren Ay, 2021) which was used for the attributes it presents on individual songs. This data set was used to make a content recommender based on an individual song’s attributes, like popularity or danceability. 
-Streamable Playlists with User Data
+
+<ins>Streamable Playlists with User Data</ins>
+
 The second large data set we used was the Streamable Playlists with User Data (Boland, n.d.)  dataset. From it we were able to collect music streaming users’ playlists. This revealed how users like to group songs, which we used to create a collaborative recommender model. 
 
 
