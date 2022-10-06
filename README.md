@@ -1,5 +1,10 @@
 # Music Streaming Song Recommender 
 
+## Introduction
+Introduction
+Upon beginning our Capstone Project, team Land’o’datalakes was first interested in exploring recommender models. We found it interesting that when you make, or even think about making an online purchase, stores like Amazon already know items to cross-sell with your potential purchase. If you put a lawn chair in your cart, how does Amazon decide to tell you “here are some other lawn chairs you might like more” or “don't you need these cool sunglasses, too?”. We also considered creating a recommender model to be an interesting and feasible challenge. While we hadn’t ever created machine learning models geared to recommendations before, we knew that with some smart application of previously learned subjects and research we could make a successful attempt at them. Below are some of the specifics of our projects.
+
+
 ## Questions
 1. Who are the people who use audio streaming services?
 
