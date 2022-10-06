@@ -81,7 +81,7 @@ layout = html.Div(
                                         dcc.Dropdown(
                                             id='dropdown',
                                             value = 9519,
-                                            style={'backgroundColor' : '#F5F5F5', 'width' : '500px', 'fontSize' : 30}
+                                            style={'backgroundColor' : '#F5F5F5', 'width' : '500px', 'fontSize' : 12}
                                         ),
                                     ],
                                     style={'display':'inline-flex'}
@@ -137,7 +137,7 @@ layout = html.Div(
                                     [
                                         dash_table.DataTable(
                                             id='goodsongs',
-                                            style_table={'width': '50rem'}, 
+                                            style_table={'max-width': '100%', 'word-wrap' : 'break-word'}, 
                                             style_cell={'textAlign': 'center', 'fontSize' : 20}, 
                                             style_as_list_view=True,
                                             style_header={
