@@ -3,16 +3,18 @@
 ## Questions
 
 ## Table of Contents
-1. **[Datasets](#datasets)**
-2. **[Project Structure](#structure)**
-3. **[SQL Database](#sql)**
-4. **[Machine Learning](#learning)**
-5. **[Visualizations](#Visuals)**
-6. **[References](#references)**
+1. **[Setting up the Environemnt](#env)**
+2. **[Datasets](#datasets)**
+3. **[Project Structure](#structure)**
+4. **[SQL Database](#sql)**
+5. **[Machine Learning](#learning)**
+6. **[Visualizations](#Visuals)**
+7. **[References](#references)**
 
 
-<a name="datasets"></a>
-## Datasets
+<a name="env"></a>
+## Setting up the Environment
+
 To set up the environment for this project, after downloading the repo, enter the following code in the terminal; "conda env create -f"Code\environment.yml"
 Select landodatalake as your desired environment.
 When running your first cell after the environment is installed and activated, you may be prompted with a message like:
@@ -22,6 +24,17 @@ Command: 'conda install -n landodatalake ipykernel --update-deps --force-reinsta
 In which case, you should run "conda install -n landodatalake ipykernel --update-deps --force-reinstall" in your terminal
 When it prompts you to proceed, enter ‘y’
 Your environment is now ready to go.
+
+<a name="datasets"></a>
+## Datasets
+
+Three datasets pertaining to music streaming and United States demographics are used to create a narrative of music streaming in the United States.
+Current Population Survey: Computer and Internet Use Supplement 2019
+Current Population Survey: Computer and Internet Use Supplement 2019 (United States Census Bureau, 2020) from the United States Census Bureau illustrated the demographic characteristics of households in the United States that, among other things, stream music. 
+Spotify Dataset 1921-2020, 600k+ Tracks
+The first large dataset we used for the data streaming and machine learning of this project was “Spotify Dataset 1921-2020, 600k+ Tracks” (Eren Ay, 2021) which was used for the attributes it presents on individual songs. This data set was used to make a content recommender based on an individual song’s attributes, like popularity or danceability. 
+Streamable Playlists with User Data
+The second large data set we used was the Streamable Playlists with User Data (Boland, n.d.)  dataset. From it we were able to collect music streaming users’ playlists. This revealed how users like to group songs, which we used to create a collaborative recommender model. 
 
 
 <a name="structure"></a>
