@@ -25,7 +25,7 @@ Upon beginning our Capstone Project, team Land’o’datalakes was first interes
 3. **[Project Structure](#structure)**
 4. **[SQL Database](#sql)**
 5. **[Machine Learning](#learning)**
-6. **[Visualizations](#Visuals)**
+6. **[Dash Dashboard](#dash)**
 7. **[References](#references)**
 
 
@@ -89,11 +89,9 @@ The distance matrix is an array that starts with a 0, meaning that a specific so
  This model only works if users have a song saved to their playlist. if new songs get added to a music streaming platform, it will not be on any playlists, thus will not get recommended. As users add it to their playlists, a correlation will develop and we will be able to see what other songs people like that song listen to. 
 
 
-<a name="Visuals"></a>
-## Visualizations
+<a name="dash"></a>
+## Dash Dashboard
 
-<a name="results"></a>
-## Results
 
 <a name="references"></a>
 ## References
