@@ -1,6 +1,18 @@
-# Capstone-Project
+# Music Streaming Song Recommender 
 
 ## Questions
+1. Who are the people who use audio streaming services?
+
+2. How might we build a database that allows us to make recommendations based on music?
+
+3. How would songs trend over time in this database?
+
+4. What trends or patterns are there in the user metrics of our application?
+
+5. How does our database compare to actual music streaming services?
+
+6. Are recommendation models important to user retention on a music platform?
+
 
 ## Table of Contents
 1. **[Setting up the Environemnt](#env)**
